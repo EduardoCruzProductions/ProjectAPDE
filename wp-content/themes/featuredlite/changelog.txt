@@ -1,7 +1,9 @@
+= 1.0.9 =
+* scrolling issue fixed.
 
 = 1.0.8 =
 * js issue fixed.
-*  All issue fixed.
+* All issue fixed.
 
 = Version: 1.0.7 =
 * Style Improve.

@@ -1,20 +1,95 @@
+=== Specia ===
+
+Contributors: specia
+Requires at least: WordPress 4.4
+Tested up to: WordPress 4.8
+Stable tag: 2.2.3
+Version: 2.2.3
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: one-column, two-columns, left-sidebar, right-sidebar, flexible-header, custom-background, custom-colors, custom-header, custom-menu,  custom-logo, featured-image-header, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, blog, e-commerce, education, entertainment, food-and-drink, photography, portfolio, editor-style
+
+
+=== Description ===
+
+Specia is a Multipurpose WordPress theme with lots of powerful features, instantly giving a professional look to your online presence. Well suited for any type of websites - business, portfolio, food & restaurant, gym & fitness, spa salon, medical practitioner & hospitals, landing pages, product pages, corporate business, digital agency, product showcase, financial advisor, accountant, law firm, wealth advisor, photography, personal, and any eCommerce stores. Specia is made on its cross-browser compatibility. It consists of: Slider, Call to Action, Service, Features, Latest Posts, Sticky Header, Social Icons, Payment Icons and Four Column blocks in Footer. This theme has several customization options that are available WordPress Theme Customizer. Specia is WPML, Polylang compatible and it´s translation ready. Specia works fine with WordPress popular plugins like WooCommerce, Contact Form 7, Ninja Form, Jetpack, WP-featherlight, Give - WordPress Donation Plugin, Open Table Widget, Page Links To, Gravity Forms, Yoast SEO, and many others. Get more features in the premium version. It has multiple useful sections on the homepage - Slider, Call to Action, Services, Features, Filterable Portfolio, Plans & Pricing, Testimonials, Teams, and Clients. Following page templates ready for publishing like: about, service, portfolio, portfolio filter, pricing, blog full width, blog left sidebar, blog right sidebar, blog masonry, and contact. What are you waiting for? Let's start downloading this amazing and beautiful Free Multipurpose WordPress Theme right away. View the demo of Specia Premium http://demo.speciatheme.com/pro/?theme=specia
+
+
 == Installation ==
-	
+
 1. In your admin panel, go to Appearance > Themes and click the Add New button.
 2. Click Upload and Choose File, then select the theme's .zip file. Click Install Now.
 3. Click Activate to use your new theme right away.
 
-== Frequently Asked Questions ==
 
-= Does this theme support any plugins? =
+=== Frequently Asked Questions ===
 
-Specia includes support for Infinite Scroll in Jetpack and other following Plugins.
-1. WooCommere
-2. Contact Form 7
-3. Ninja Form
-4. WP-Featherlight and many more
+1. Get Support - https://specia.ticksy.com/submit/#100006114
+
+
+=== Copyright ===
+
+i) Package Structure
+Based on Underscores http://underscores.me/, (C) 2012-2016 Automattic, Inc., [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
+
+ii) Font Awesome
+Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+Source: http://fontawesome.io
+
+iii) Bootstrap Framework
+Bootstrap (http://getbootstrap.com/)
+Copyright (c) 2011-2014 Twitter, Inc
+Licensed - https://github.com/twbs/bootstrap/blob/master/LICENSE
+
+iv) Owl Carousel 2
+Owl Carousel 2 - by @David Deutsch - https://github.com/OwlCarousel2
+Licensed - https://github.com/OwlCarousel2/OwlCarousel2/blob/develop/LICENSE
+
+v) Simple Text Rotator
+Simple Text Rotator - https://github.com/peachananr/simple-text-rotator
+Licensed - https://github.com/peachananr/simple-text-rotator/blob/master/LICENSE
+
+vi) Animate Css
+Animate Css by @Daniel Eden - https://daneden.me/
+License - https://github.com/daneden/animate.css/blob/master/LICENSE (MIT License)
+Source: https://github.com/daneden/animate.css
+
+vii) Sticky Js
+Sticky Js by @Anthony Garand - http://stickyjs.com/
+License - https://github.com/garand/sticky/blob/master/LICENSE.md
+Source: http://stickyjs.com/
+
+viii) Modernizr Custom
+Modernizr Custom 
+License - MIT & BSD
+Source: http://modernizr.com/download/#-touch-shiv-cssclasses-teststyles-prefixes-load
+
+ix) WOW Js
+WOW Js by @matthieu
+License - GNU GPL license v3
+Source: https://github.com/matthieua/WOW
+
+x) Screenshot Image
+Screenshot Image
+URL: https://pixabay.com/en/workplace-team-business-meeting-1245776/
+Source: http://pixabay.com
+License: CC0 Public Domain
+
+xi) Image Folder Images
+All other Images have been used in images folder, Created by Specia Theme. Also they are GPL Licensed and free to use and free to redistribute further.
+
+x) Admin Detail Image
+Admin Detail Image
+URL: https://pixabay.com/en/traffic-city-street-urban-city-1149857/
+Source: http://pixabay.com
+License: CC0 Public Domain
+
 
 == Changelog ==
+@version 2.2.3
+* Readme Pattern Changed.
+
 @version 2.2.2
 * Customizer Improvement & Remove Unused Code.
 
@@ -80,7 +155,6 @@ Specia includes support for Infinite Scroll in Jetpack and other following Plugi
 
 @version 1.1.7
 * Fixed CSS Bug
-
 
 @version 1.1.6
 * Editor Style Support Added.
@@ -161,7 +235,6 @@ Specia includes support for Infinite Scroll in Jetpack and other following Plugi
 * Third Party License Added
 * Solved Issue
 
-== Changelog ==
 @version 0.0.4
 * Readme.txt Added
 * Theme Description Added
@@ -175,74 +248,3 @@ Specia includes support for Infinite Scroll in Jetpack and other following Plugi
 
 @version 0.0.1 
 * Initial release
-
--------------------------------------------------------------------------------------------------
-License and Copyrights for Resources used in Specia WordPress Theme
--------------------------------------------------------------------------------------------------
-
-i) Package Structure
-Based on Underscores http://underscores.me/, (C) 2012-2016 Automattic, Inc., [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
-
-ii) Font Awesome
-=================================================================================================
-Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
-License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
-Source: http://fontawesome.io
-
-iii) Bootstrap Framework
-=================================================================================================
-Bootstrap (http://getbootstrap.com/)
-Copyright (c) 2011-2014 Twitter, Inc
-Licensed - https://github.com/twbs/bootstrap/blob/master/LICENSE
-
-iv) Owl Carousel 2
-=================================================================================================
-Owl Carousel 2 - by @David Deutsch - https://github.com/OwlCarousel2
-Licensed - https://github.com/OwlCarousel2/OwlCarousel2/blob/develop/LICENSE
-
-v) Simple Text Rotator
-=================================================================================================
-Simple Text Rotator - https://github.com/peachananr/simple-text-rotator
-Licensed - https://github.com/peachananr/simple-text-rotator/blob/master/LICENSE
-
-vi) Animate Css
-=================================================================================================
-Animate Css by @Daniel Eden - https://daneden.me/
-License - https://github.com/daneden/animate.css/blob/master/LICENSE (MIT License)
-Source: https://github.com/daneden/animate.css
-
-vii) Sticky Js
-=================================================================================================
-Sticky Js by @Anthony Garand - http://stickyjs.com/
-License - https://github.com/garand/sticky/blob/master/LICENSE.md
-Source: http://stickyjs.com/
-
-viii) Modernizr Custom
-=================================================================================================
-Modernizr Custom 
-License - MIT & BSD
-Source: http://modernizr.com/download/#-touch-shiv-cssclasses-teststyles-prefixes-load
-
-ix) WOW Js
-=================================================================================================
-WOW Js by @matthieu
-License - GNU GPL license v3
-Source: https://github.com/matthieua/WOW
-
-x) Screenshot Image
-=================================================================================================
-Screenshot Image
-URL: https://pixabay.com/en/workplace-team-business-meeting-1245776/
-Source: http://pixabay.com
-License: CC0 Public Domain
-
-xi) Image Folder Images
-=================================================================================================
-All other Images have been used in images folder, Created by Specia Theme. Also they are GPL Licensed and free to use and free to redistribute further.
-
-x) Admin Detail Image
-=================================================================================================
-Admin Detail Image
-URL: https://pixabay.com/en/traffic-city-street-urban-city-1149857/
-Source: http://pixabay.com
-License: CC0 Public Domain

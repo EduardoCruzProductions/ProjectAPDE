@@ -314,13 +314,6 @@ jQuery(document).ready(function() {
       jQuery('.map iframe').css("pointer-events", "none"); 
     });
  });
-/*------------smooth-scroll------------*/
-jQuery(function() {  
-
-    jQuery.scrollSpeed(150, 800, 'easeOutCubic');
-
-});
-
 /*------------wow animation------------*/
 
 wow = new WOW({
