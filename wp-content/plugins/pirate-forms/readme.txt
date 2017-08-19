@@ -1,5 +1,5 @@
 === Contact Form & SMTP Plugin for WordPress by PirateForms ===
-Contributors: themeisle, codeinwp, rodicaelena, hardeepasrani, pirateforms
+Contributors: themeisle, codeinwp, rodicaelena, hardeepasrani, pirateforms, rozroz
 Tags:  contact form, contact form plugin, forms, smtp, custom form, subscribe form, feedback form, wordpress contact form
 Requires at least: 3.0
 Tested up to: 4.8
@@ -14,6 +14,16 @@ A simple and effective WordPress contact form & SMTP plugin. Compatible with bes
 Stay in touch with your visitors very easily. <a href="https://themeisle.com/plugins/pirate-forms/" rel="nofollow">Pirate Contact Forms</a> offers you a great and friendly contact form for your website.
 This is an easy-to-use WordPress contact form with captcha plugin. To create a contact form you just need to use the [pirate_forms] shortcode or use the WordPress contact form widget.
 
+> **Time-saving features available in the FULL version:**
+>
+> * Create multiple forms
+> * Mailchimp Integration
+> * Custom fields
+> * Developer friendly
+> * 12 months Support & Updates
+> * 30 days Money Back Guaranteed
+>
+> **[Learn more about Pirate Forms Extended version]( https://themeisle.com/plugins/pirate-forms-extended/ )**
 
 **Why use our responsive WordPress Contact Form:**
 
@@ -44,6 +54,17 @@ A simple to use contact form plugin for creating a clean contact form using the 
 
 
 This is not a form maker or drag & drop builder plugin nor "the best contact form plugin", you cannot add new fields or create multiple forms (subscription forms, payment, order, feedback or quote), there are some great alternatives out there for those like : Caldera Forms or Ninja Forms.
+
+ = See how Pirate Forms can integrate with your website  =
+
+* [Default form](https://demo.themeisle.com/pirate-forms/default-form-shortcode/)
+* [Use multiple forms on same page](https://demo.themeisle.com/pirate-forms/multiple-forms-page/)
+* [Minimalistic form](https://demo.themeisle.com/pirate-forms/minimalistic-form/)
+* [Form with attachment](https://demo.themeisle.com/pirate-forms/form-with-attachment/)
+* [Subscription form](https://demo.themeisle.com/pirate-forms/subscription-form/)
+* [Complex support form](https://demo.themeisle.com/pirate-forms/support-form/)
+* [Telephone field form](https://demo.themeisle.com/pirate-forms/phone-number-form/)
+
 
 
 
@@ -113,6 +134,33 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.0.5 - 2017-08-16  = 
+
+* Fixed compatibility with the pro version for multiple fields. 
+* Fixed default consistency between forms.
+
+
+= 2.0.4 - 2017-08-14  = 
+
+* All fields are now optional.
+* Fixed redirect after form submission.
+* Added more flexibility for changing the layout via dynamic CSS classes.
+
+
+= 2.0.3 - 2017-08-10  = 
+
+* Fixed fatal errors on some environments because of anonymous functions usage.
+* Fixed thank you message when nonces are disabled.
+* Added compatibility with pro version.
+
+
+= 2.0.2 - 2017-08-07  = 
+
+* Fixed none option for thank you page.
+* Fixed various issues with form layout.
+* Added support for future pro version.
+
+
 = 2.0.1 - 2017-08-01  = 
 
 * Fixed backwards compatibility with Zerif themes

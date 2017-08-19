@@ -153,7 +153,7 @@ class PirateForms_HTML {
 		}
 
 		$html       .= '</div>';
-		return $html;
+		return $this->get_wrap( $args, $html );
 	}
 
 	/**
@@ -188,6 +188,30 @@ class PirateForms_HTML {
 	private function text( $args ) {
 		$html       = $this->get_label( $args );
 		$html       .= '<input type="text" ' . $this->get_common( $args, array( 'value' ) ) . '>';
+
+		return $this->get_wrap( $args, $html );
+	}
+
+	/**
+	 * The input type="number" element
+	 *
+	 * @since    1.2.6
+	 */
+	private function number( $args ) {
+		$html       = $this->get_label( $args );
+		$html       .= '<input type="number" ' . $this->get_common( $args, array( 'value' ) ) . ' min=0>';
+
+		return $this->get_wrap( $args, $html );
+	}
+
+	/**
+	 * The input type="tel" element
+	 *
+	 * @since    1.2.6
+	 */
+	private function tel( $args ) {
+		$html       = $this->get_label( $args );
+		$html       .= '<input type="tel" ' . $this->get_common( $args, array( 'value' ) ) . '>';
 
 		return $this->get_wrap( $args, $html );
 	}
@@ -238,7 +262,7 @@ class PirateForms_HTML {
 	private function select( $args ) {
 		$html       = $this->get_label( $args );
 
-		$html       .= '<select id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '"';
+		$html       .= '<select id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '">';
 		if ( isset( $args['options'] ) && is_array( $args['options'] ) ) {
 			foreach ( $args['options'] as $key => $val ) {
 				$extra  = $key == $args['value'] ? 'selected' : '';

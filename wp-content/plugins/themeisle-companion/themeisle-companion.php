@@ -1,47 +1,97 @@
 <?php
-/*
- * Plugin Name: ThemeIsle Companion
- * Plugin URI: https://github.com/Codeinwp/themeisle-companion
- * Description: Enhances ThemeIsle's themes with extra functionalities.
- * Version: 1.0.5
- * Author: Themeisle
- * Author URI: http://themeisle.com
- * Text Domain: themeisle-companion
- * Domain Path: /languages
- * License: GPLv2
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+/**
+ * The plugin bootstrap file
+ *
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @link              https://themeisle.com
+ * @since             1.0.0
+ * @package           Orbit_Fox
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Orbit Fox Companion
+ * Plugin URI:        https://themeisle.com/plugins/orbit-fox-companion
+ * Description:       Enhances ThemeIsle's themes with extra functionality.
+ * Version:           2.0.2
+ * Author:            Themeisle
+ * Author URI:        https://themeisle.com
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       themeisle-companion
+ * Domain Path:       /languages
+ * WordPress Available:  yes
+ * Requires License:    no
  */
 
-define( 'THEMEISLE_COMPANION_VERSION',  '1.0.5' );
-define( 'THEMEISLE_COMPANION_PATH',  plugin_dir_path( __FILE__ ) );
-define( 'THEMEISLE_COMPANION_URL',  plugin_dir_url( __FILE__ ) );
-
-
-if ( ! function_exists( 'add_action' ) ) {
-	die('Nothing to do...');
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
 }
-add_action( 'plugins_loaded', 'themeisle_companion_textdomain' );
 
 /**
- * Load plugin textdomain.
+ * The code that runs during plugin activation.
+ * This action is documented in core/includes/class-orbit-fox-activator.php
  */
-function themeisle_companion_textdomain() {
-	load_plugin_textdomain( 'themeisle-companion', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+function activate_orbit_fox() {
+	$obfx_activator = new Orbit_Fox_Activator();
+	$obfx_activator::activate();
 }
 
-
-function themeisle_companion_loader() {
-	if ( function_exists( 'zerif_setup' ) ) {
-		require_once( THEMEISLE_COMPANION_PATH . 'inc/zerif-lite/zerif-lite-functions.php' );
-	}
-
-	if ( function_exists( 'hestia_setup_theme' ) ) {
-		require_once( THEMEISLE_COMPANION_PATH . 'inc/hestia/hestia-functions.php' );
-	}
-
-	if ( function_exists( 'rhea_lite_setup' ) ) {
-		require_once( THEMEISLE_COMPANION_PATH . 'inc/rhea/rhea-companion.php' );
-	}
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in core/includes/class-orbit-fox-deactivator.php
+ */
+function deactivate_orbit_fox() {
+	$obfx_deactivator = new Orbit_Fox_Deactivator();
+	$obfx_deactivator::deactivate();
 }
 
-add_action( 'after_setup_theme', 'themeisle_companion_loader', 0 );
+register_activation_hook( __FILE__, 'activate_orbit_fox' );
+register_deactivation_hook( __FILE__, 'deactivate_orbit_fox' );
+
+/**
+ * Begins execution of the plugin.
+ *
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
+ *
+ * @since    1.0.0
+ */
+function run_orbit_fox() {
+	define( 'OBFX_URL', plugins_url( '/', __FILE__ ) );
+	define( 'OBX_PATH', dirname( __FILE__ ) );
+	$plugin = new Orbit_Fox();
+	$plugin->run();
+	$vendor_file = OBX_PATH . '/vendor/autoload.php';
+	if ( is_readable( $vendor_file ) ) {
+		require_once $vendor_file;
+	}
+	add_filter(
+		'themeisle_sdk_products', function ( $products ) {
+			$products[] = __FILE__;
+
+			return $products;
+		}
+	);
+}
+
+require( 'class-autoloader.php' );
+Autoloader::set_plugins_path( plugin_dir_path( __DIR__ ) );
+Autoloader::define_namespaces( array( 'Orbit_Fox', 'OBFX', 'OBFX_Module' ) );
+/**
+ * Invocation of the Autoloader::loader method.
+ *
+ * @since   1.0.0
+ */
+spl_autoload_register( array( 'Autoloader', 'loader' ) );
+
+/**
+ * The start of the app.
+ *
+ * @since   1.0.0
+ */
+run_orbit_fox();
