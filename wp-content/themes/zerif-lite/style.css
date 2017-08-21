@@ -323,7 +323,7 @@ h6 {
 	background: #7fbf7f;
 }
 .green-btn {
-	background: #1D9A4F;
+	background: #098039;
 }
 .blue-btn {
 	background: #3ab0e2;
@@ -346,7 +346,7 @@ h6 {
 }
 .green-btn:hover {
 	color: #FFF;
-	background: #098039;
+	background: #066B2E;
 }
 .yellow-btn:hover {
 	color: #FFF;
@@ -2888,7 +2888,7 @@ width: -webkit-calc(100% / 4);
  **   Testimonial           -----
 -----------------------------------------*/
 .testimonial {
-	background: #55A876;
+	background: #4C9168;
 	padding-bottom: 90px;
 }
 .testimonial .section-header .section-legend {
