@@ -323,7 +323,7 @@ h6 {
 	background: #7fbf7f;
 }
 .green-btn {
-	background: #1e9e6b;
+	background: #1D9A4F;
 }
 .blue-btn {
 	background: #3ab0e2;
@@ -346,7 +346,7 @@ h6 {
 }
 .green-btn:hover {
 	color: #FFF;
-	background: #069059;
+	background: #098039;
 }
 .yellow-btn:hover {
 	color: #FFF;
@@ -499,7 +499,7 @@ thead th{
 	content: "";
 	width: 75%;
 	height: 2px;
-	background: #7fbf7f;
+	background: #689A68;
 	bottom: -9px;
 	left: 12.5%;
 }
@@ -1934,7 +1934,7 @@ ul.nav > li.current_page_item.current > a:before {
 	border: 10px solid #f7d861;
 }
 #focus span:nth-child(4n+1) .focus-box .red-border-bottom:before {
-	background: #7fbf7f;
+	background: #689A68;
 }
 #focus span:nth-child(4n+2) .focus-box .red-border-bottom:before {
 	background: #34d293;
@@ -2589,7 +2589,7 @@ width: -webkit-calc(100% / 4);
 	color: #7fbf7f;
 }
 .our-team .row > span:nth-child(4n+1) .red-border-bottom:before{
-    background: #7fbf7f;
+    background: #689A68;
 }
 .our-team .row > span:nth-child(4n+2) .red-border-bottom:before{
     background: #34d293;
@@ -2888,7 +2888,7 @@ width: -webkit-calc(100% / 4);
  **   Testimonial           -----
 -----------------------------------------*/
 .testimonial {
-	background: #8c7620;
+	background: #55A876;
 	padding-bottom: 90px;
 }
 .testimonial .section-header .section-legend {
@@ -3012,10 +3012,10 @@ width: -webkit-calc(100% / 4);
 }
 .purchase-now .red-btn {
 	float: right;
-	background: #db5a4a;
+	background: #64B964;
 }
 .purchase-now .red-btn:hover {
-	background: #bf3928;
+	background: #2A902A;
 }
 .ribbon-without-button h3 {
 	text-align: center;
