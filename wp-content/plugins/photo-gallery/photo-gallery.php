@@ -4,7 +4,7 @@
  * Plugin Name: Photo Gallery
  * Plugin URI: https://web-dorado.com/products/wordpress-photo-gallery-plugin.html
  * Description: This plugin is a fully responsive gallery plugin with advanced functionality.  It allows having different image galleries for your posts and pages. You can create unlimited number of galleries, combine them into albums, and provide descriptions and tags.
- * Version: 1.3.52
+ * Version: 1.3.53
  * Author: Photo Gallery Team
  * Author URI: https://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -1703,8 +1703,9 @@ function bwg_activate() {
       'default_theme' => 0
     ));
   }
+
   $version = get_option('wd_bwg_version');
-  $new_version = '1.3.52';
+  $new_version = '1.3.53';
   if ($version && version_compare($version, $new_version, '<')) {
     require_once WD_BWG_DIR . "/update/bwg_update.php";
     bwg_update($version);
@@ -1719,6 +1720,11 @@ function bwg_activate() {
   else {
     add_option("wd_bwg_version", $new_version, '', 'no');
     add_option("wd_bwg_theme_version", '1.0.0', '', 'no');
+  }
+
+  // Check if notice or popup already exist for other plugins
+  if( get_option('wds_bk_notice_status') === false ) {
+    add_option('wds_bk_notice_status', '');
   }
 }
 
@@ -1756,7 +1762,7 @@ wp_oembed_add_provider( '#https://instagr(\.am|am\.com)/p/.*#i', 'https://api.in
 
 function bwg_update_hook() {
   $version = get_option('wd_bwg_version');
-  $new_version = '1.3.52';
+  $new_version = '1.3.53';
   if ($version && version_compare($version, $new_version, '<')) {
     require_once WD_BWG_DIR . "/update/bwg_update.php";
     bwg_update($version);
@@ -2600,3 +2606,59 @@ function bwg_overview() {
   }
 }
 add_action('init', 'bwg_overview', 9);
+
+if (!function_exists('wd_bp_install_notice')) {
+  $wd_bp_plugin_url = WD_BWG_URL;
+  function wd_bp_script_style() {
+    global $wd_bp_plugin_url;
+    wp_enqueue_script('wd_bck_install', $wd_bp_plugin_url . '/js/wd_bp_install.js', array('jquery'));
+    wp_enqueue_style('wd_bck_install', $wd_bp_plugin_url . '/css/wd_bp_install.css');
+  }
+  add_action('admin_enqueue_scripts', 'wd_bp_script_style');
+
+  /**
+   * Show notice to install backup plugin
+   */
+  function wd_bp_install_notice() {
+    global $wd_bp_plugin_url;
+    $prefix = 'bwg_back';
+    $meta_value = get_option('wds_bk_notice_status');
+    if ($meta_value === '' || $meta_value === false) {
+      ob_start();
+      ?>
+      <div class="notice notice-info" id="wd_bp_notice_cont">
+        <p>
+          <img id="wd_bp_logo_notice" src="<?php echo $wd_bp_plugin_url . '/images/logo.png'; ?>">
+          <?php _e("Hey! Install brand new FREE", $prefix) ?>
+          <a href="https://wordpress.org/plugins/backup-wd/" title="<?php _e("More details", $prefix) ?>"
+             target="_blank"><?php _e("Backup WD", $prefix) ?></a>
+          <?php _e("plugin to keep your images and website safe.", $prefix) ?>
+          <a class="button button-primary"
+             href="<?php echo esc_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=backup-wd'), 'install-plugin_backup-wd')); ?>">
+            <span onclick="wd_bp_notice_install()"><?php _e("Install", $prefix); ?></span>
+          </a>
+        </p>
+        <button type="button" class="wd_bp_notice_dissmiss notice-dismiss"><span class="screen-reader-text"></span>
+        </button>
+      </div>
+      <script>wd_bp_url = '<?php echo add_query_arg(array('action' => 'wd_bp_dismiss',), admin_url('admin-ajax.php')); ?>'</script>
+      <?php
+      echo ob_get_clean();
+    }
+  }
+
+  if (!is_dir(plugin_dir_path(__DIR__) . 'backup-wd')) {
+    add_action('admin_notices', 'wd_bp_install_notice');
+  }
+
+  /**
+   * Add usermeta to db
+   *
+   * empty: notice,
+   * 1    : never show again
+   */
+  function wd_bp_install_notice_status() {
+    update_option('wds_bk_notice_status', '1', 'no');
+  }
+  add_action('wp_ajax_wd_bp_dismiss', 'wd_bp_install_notice_status');
+}
