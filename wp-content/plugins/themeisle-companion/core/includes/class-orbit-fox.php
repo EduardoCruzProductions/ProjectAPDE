@@ -68,7 +68,8 @@ class Orbit_Fox {
 	public function __construct() {
 
 		$this->plugin_name = 'orbit-fox';
-		$this->version = '2.0.5';
+    
+		$this->version = '2.0.10';
 
 		$this->load_dependencies();
 		$this->set_locale();

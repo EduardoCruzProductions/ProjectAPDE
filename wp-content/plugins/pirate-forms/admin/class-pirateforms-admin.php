@@ -72,6 +72,9 @@ class PirateForms_Admin {
 				'pirateforms_scripts_admin', 'cwp_top_ajaxload', array(
 					'ajaxurl'   => admin_url( 'admin-ajax.php' ),
 					'nonce'     => wp_create_nonce( PIRATEFORMS_SLUG ),
+					'i10n'      => array(
+						'recaptcha' => __( 'Please specify the Site Key and Secret Key.', 'pirate-forms' ),
+					),
 				)
 			);
 		}
@@ -223,6 +226,20 @@ class PirateForms_Admin {
 			$pirate_forms_contactus_email = get_bloginfo( 'admin_email' );
 		endif;
 
+		// check if akismet is installed
+		$akismet_status = false;
+		if ( is_plugin_active( 'akismet/akismet.php' ) ) {
+			$akismet_key    = get_option( 'wordpress_api_key' );
+			if ( ! empty( $akismet_key ) ) {
+				$akismet_status = true;
+			}
+		}
+
+		$akismet_msg    = '';
+		if ( ! $akismet_status ) {
+			$akismet_msg    = __( 'To use this option, please ensure Akismet is activated with a valid key.', 'pirate-forms' );
+		}
+
 		// the key(s) will be added to the div as class names
 		// to enable tooltip popup add 'pirate_dashicons'
 		return apply_filters(
@@ -276,7 +293,7 @@ class PirateForms_Admin {
 									'value' => __( 'Store submissions in the database', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'  => array(
-										'value' => __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved in Contacts on the left (appears after this option is activated).', 'pirate-forms' ),
+										'value' => __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved under "All Entries" on the left (appears after this option is activated).', 'pirate-forms' ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),
@@ -318,7 +335,7 @@ class PirateForms_Admin {
 										'class' => 'pirate_forms_option_description',
 									),
 								),
-								'value' => PirateForms_Util::get_option( 'pirateformsopt_confirm_email' ),
+								'value' => stripslashes( PirateForms_Util::get_option( 'pirateformsopt_confirm_email' ) ),
 								'wrap'  => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
@@ -343,6 +360,27 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options' => PirateForms_Util::get_thank_you_pages(),
+							),
+							array(
+								'id'      => 'pirateformsopt_akismet',
+								'type'    => 'checkbox',
+								'label'   => array(
+									'value' => __( 'Integrate with Akismet?', 'pirate-forms' ),
+									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
+									'desc'  => array(
+										'value' => sprintf( __( 'Checking this option will verify the content of the message with Akismet to check if it\'s spam. If it is determined to be spam, the message will be blocked. %s', 'pirate-forms' ), $akismet_msg ),
+										'class' => 'pirate_forms_option_description',
+									),
+								),
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_akismet' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'options' => array(
+									'yes' => __( 'Yes', 'pirate-forms' ),
+								),
+								'disabled' => ! empty( $akismet_msg ),
 							),
 						)
 					),
@@ -448,9 +486,9 @@ class PirateForms_Admin {
 							/* Recaptcha */
 							array(
 								'id'      => 'pirateformsopt_recaptcha_field',
-								'type'    => 'checkbox',
+								'type'    => 'radio',
 								'label'   => array(
-									'value' => __( 'Add a reCAPTCHA', 'pirate-forms' ),
+									'value' => __( 'Add a spam trap', 'pirate-forms' ),
 								),
 								'default' => $pirate_forms_contactus_recaptcha_show,
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_field' ),
@@ -459,7 +497,9 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options' => array(
-									'yes' => __( 'Yes', 'pirate-forms' ),
+									'' => __( 'No', 'pirate-forms' ),
+									'custom' => __( 'Custom', 'pirate-forms' ),
+									'yes' => __( 'Google reCAPTCHA', 'pirate-forms' ),
 								),
 							),
 							/* Site key */
@@ -478,7 +518,7 @@ class PirateForms_Admin {
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_sitekey' ),
 								'wrap'    => array(
 									'type'  => 'div',
-									'class' => 'pirate-forms-grouped',
+									'class' => 'pirate-forms-grouped pirateformsopt_recaptcha',
 								),
 							),
 							/* Secret key */
@@ -492,7 +532,7 @@ class PirateForms_Admin {
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_secretkey' ),
 								'wrap'    => array(
 									'type'  => 'div',
-									'class' => 'pirate-forms-grouped',
+									'class' => 'pirate-forms-grouped pirateformsopt_recaptcha',
 								),
 							),
 						)
@@ -868,12 +908,19 @@ class PirateForms_Admin {
 	public function manage_contact_posts_columns( $columns ) {
 		$tmp     = $columns;
 		$columns = array();
+		/**
+		 * Remove redundant columns.
+		 */
+		$allowed_keys = array( 'cb', 'title', 'pf_mailstatus', 'pf_form', 'date' );
+
 		foreach ( $tmp as $key => $val ) {
 			if ( 'date' === $key ) {
 				// ensure our columns are added before the date.
 				$columns['pf_mailstatus'] = __( 'Mail Status', 'pirate-forms' );
 			}
-			$columns[ $key ] = $val;
+			if ( in_array( $key, $allowed_keys ) ) {
+				$columns[ $key ] = $val;
+			}
 		}
 
 		return $columns;
@@ -891,7 +938,15 @@ class PirateForms_Admin {
 		switch ( $column ) {
 			case 'pf_mailstatus':
 				$response   = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status', true );
-				echo empty( $response ) ? __( 'Status not captured', 'pirate-forms' ) : ( $response ? __( 'Mail sent successfully!', 'pirate-forms' ) : __( 'Mail sending failed!', 'pirate-forms' ) );
+				$failed     = $response == 'false';
+				echo empty( $response ) ? __( 'Status not captured', 'pirate-forms' ) : ( $failed ? __( 'Mail sending failed!', 'pirate-forms' ) : __( 'Mail sent successfully!', 'pirate-forms' ) );
+
+				if ( $failed ) {
+					$reason     = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status-reason', true );
+					if ( ! empty( $reason ) ) {
+						echo '<br>(' . $reason . ')';
+					}
+				}
 				break;
 		}
 	}
