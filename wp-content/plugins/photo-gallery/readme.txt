@@ -4,11 +4,11 @@ Donate link: https://web-dorado.com/products/wordpress-photo-gallery-plugin.html
 Tags: gallery, photo gallery, image gallery, responsive gallery, wordpress gallery plugin, photo albums, gallery slider, gallery lightbox, wordpress photo gallery plugin, fullscreen gallery, watermarking, video gallery
 Requires at least: 3.4
 Tested up to: 4.8 
-Stable tag: 1.3.58    
+Stable tag: 1.3.53    
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Photo Gallery is a powerful gallery plugin with a list of advanced options for creating stunning image galleries. Add the responsive plugin with cool gallery views.
+Photo Gallery is an advanced plugin with a list of tools and options for adding and editing images for different views. It is fully responsive. 
 
 == Description ==
 
@@ -186,22 +186,6 @@ We recommend to use images with the width of 1200px to 1600px. In order to speed
 To enable the feature of adding Media Library images, go to Photo Gallery > Options > Global Options and set Import from Media Library option to Yes. After that you will be able to import photos from Media Library to Photo Gallery.     
 
 == Changelog ==
-
-= 1.3.58 = 
-* Fixed: Page scrollbar after closing lightbox.    
-
-= 1.3.57 = 
-* Fixed: Bug after last update.   
-
-= 1.3.56 = 
-* Fixed: Bug after last update.   
-
-= 1.3.55 =
-* Changed: Create custom post on album, gallery, tag save.   
-* Fixed: Carousel view.   
-
-= 1.3.54 =
-* Changed: Show notification to install Backup WD plugin only on plugin pages.    
 
 = 1.3.53 =
 * Added: Show notice to install Backup WD plugin.    

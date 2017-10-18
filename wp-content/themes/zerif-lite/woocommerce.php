@@ -1,8 +1,6 @@
 <?php
 /**
  * The template for displaying all WooCommerce pages.
- *
- * @package zerif-lite
  */
 get_header(); ?>
 

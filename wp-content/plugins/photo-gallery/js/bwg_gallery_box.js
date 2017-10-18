@@ -1,7 +1,4 @@
 var isPopUpOpened = false;
-var bwg_overflow_initial_value = false;
-var bwg_overflow_x_initial_value = false;
-var bwg_overflow_y_initial_value = false;
 
 function spider_createpopup(url, current_view, width, height, duration, description, lifetime, lightbox_ctrl_btn_pos) {
   url = url.replace(/&#038;/g, '&');
@@ -10,9 +7,6 @@ function spider_createpopup(url, current_view, width, height, duration, descript
   if (spider_hasalreadyreceivedpopup(description) || spider_isunsupporteduseragent()) {
     return;
   }
-  bwg_overflow_initial_value = jQuery("html").css("overflow");
-  bwg_overflow_x_initial_value = jQuery("html").css("overflow-x");
-  bwg_overflow_y_initial_value = jQuery("html").css("overflow-y");
   jQuery("html").attr("style", "overflow:hidden !important;");
   jQuery("#bwg_spider_popup_loading_" + current_view).css({display: "block"});
   jQuery("#spider_popup_overlay_" + current_view).css({display: "block"});
@@ -78,15 +72,7 @@ function spider_destroypopup(duration) {
       jQuery(".bwg_spider_popup_loading").css({display: "none"});
       jQuery(".spider_popup_overlay").css({display: "none"});
       jQuery(document).off("keydown");
-      if (bwg_overflow_initial_value) {
-        jQuery("html").css("overflow", bwg_overflow_initial_value);
-      }
-      if (bwg_overflow_x_initial_value) {
-        jQuery("html").css("overflow-x", bwg_overflow_x_initial_value);
-      }
-      if (bwg_overflow_y_initial_value) {
-        jQuery("html").css("overflow-y", bwg_overflow_y_initial_value);
-      }
+      jQuery("html").attr("style", "overflow:auto !important");
     }, 20);
   }
   isPopUpOpened = false;

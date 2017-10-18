@@ -22,5 +22,6 @@ class Tribe__Events__Asset__Admin extends Tribe__Events__Asset__Abstract_Asset {
 
 		wp_enqueue_script( $this->prefix . '-admin', $path, $deps, $this->filter_js_version(), true );
 		wp_enqueue_style( 'dashicons' );
+
 	}
 }

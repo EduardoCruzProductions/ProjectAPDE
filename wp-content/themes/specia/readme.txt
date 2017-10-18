@@ -2,15 +2,13 @@
 
 Contributors: specia
 Requires at least: WordPress 4.4
-Tested up to: WordPress 4.8.2
-Stable tag: 2.2.10
-Version: 2.2.10
+Tested up to: WordPress 4.8
+Stable tag: 2.2.3
+Version: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, left-sidebar, right-sidebar, flexible-header, custom-background, custom-colors, custom-header, custom-menu,  custom-logo, featured-image-header, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, blog, e-commerce, education, entertainment, food-and-drink, photography, portfolio, editor-style
 
-Specia WordPress Theme, Copyright 2017 Specia Theme
-Specia is distributed under the terms of the GNU GPL
 
 === Description ===
 
@@ -74,9 +72,9 @@ Source: https://github.com/matthieua/WOW
 
 x) Screenshot Image
 Screenshot Image
-URL: https://www.pexels.com/photo/adult-amsterdam-chairs-comfortable-509819/
-Source: https://www.pexels.com/
-License: CC0 License
+URL: https://pixabay.com/en/workplace-team-business-meeting-1245776/
+Source: http://pixabay.com
+License: CC0 Public Domain
 
 xi) Image Folder Images
 All other Images have been used in images folder, Created by Specia Theme. Also they are GPL Licensed and free to use and free to redistribute further.
@@ -89,18 +87,6 @@ License: CC0 Public Domain
 
 
 == Changelog ==
-@version 2.2.10
-* Added Copyright Information
-
-@version 2.2.6
-* Screenshot Changed
-
-@version 2.2.5
-* Screenshot Changed
-
-@version 2.2.4
-* Screenshot Changed
-
 @version 2.2.3
 * Readme Pattern Changed.
 

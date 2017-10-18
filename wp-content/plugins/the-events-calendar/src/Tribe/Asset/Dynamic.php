@@ -9,7 +9,6 @@ class Tribe__Events__Asset__Dynamic extends Tribe__Events__Asset__Abstract_Asset
 			array(
 				'jquery',
 				'tribe-events-php-date-formatter',
-				'tribe-moment',
 			)
 		);
 

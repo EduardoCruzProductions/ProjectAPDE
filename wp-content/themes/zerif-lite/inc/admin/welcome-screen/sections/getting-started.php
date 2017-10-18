@@ -1,8 +1,6 @@
 <?php
 /**
  * Getting started template
- *
- * @package zerif-lite
  */
 
 $customizer_url = admin_url() . 'customize.php' ;
@@ -12,13 +10,9 @@ $customizer_url = admin_url() . 'customize.php' ;
 
 	<div class="zerif-tab-pane-center">
 
-		<h1 class="zerif-lite-welcome-title">Welcome to Zerif Lite! 
-		<?php
-		if ( ! empty( $zerif_lite['Version'] ) ) :
-?>
- <sup id="zerif-lite-theme-version"><?php echo esc_attr( $zerif_lite['Version'] ); ?> </sup><?php endif; ?></h1>
+		<h1 class="zerif-lite-welcome-title">Welcome to Zerif Lite! <?php if( !empty($zerif_lite['Version']) ): ?> <sup id="zerif-lite-theme-version"><?php echo esc_attr( $zerif_lite['Version'] ); ?> </sup><?php endif; ?></h1>
 
-		<p><?php esc_html_e( 'Our most popular free one page WordPress theme, Zerif Lite!','zerif-lite' ); ?></p>
+		<p><?php esc_html_e( 'Our most popular free one page WordPress theme, Zerif Lite!','zerif-lite'); ?></p>
 		<p><?php esc_html_e( 'We want to make sure you have the best experience using Zerif Lite and that is why we gathered here all the necessary informations for you. We hope you will enjoy using Zerif Lite, as much as we enjoy creating great products.', 'zerif-lite' ); ?>
 
 	</div>
@@ -160,13 +154,13 @@ $customizer_url = admin_url() . 'customize.php' ;
 				<p><span class="zerif-lite-w-activated button"><?php esc_html_e( 'Already activated', 'zerif-lite' ); ?></span></p>
 
 			<?php
-} else {
-		?>
+		}
+		else { ?>
 
 				<p><a href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=siteorigin-panels' ), 'install-plugin_siteorigin-panels' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Install Page Builder by SiteOrigin', 'zerif-lite' ); ?></a></p>
 
 			<?php
-}
+		}
 
 		?>
 
@@ -181,13 +175,13 @@ $customizer_url = admin_url() . 'customize.php' ;
 				<p><span class="zerif-lite-w-activated button"><?php esc_html_e( 'Already activated', 'zerif-lite' ); ?></span></p>
 
 			<?php
-} else {
-		?>
+		}
+		else { ?>
 
 				<p><a href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wp-product-review' ), 'install-plugin_wp-product-review' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Install WP Product Review', 'zerif-lite' ); ?></a></p>
 
 			<?php
-}
+		}
 
 		?>
 
@@ -202,13 +196,13 @@ $customizer_url = admin_url() . 'customize.php' ;
 			<p><span class="zerif-lite-w-activated button"><?php esc_html_e( 'Already activated', 'zerif-lite' ); ?></span></p>
 
 			<?php
-} else {
-		?>
+		}
+		else { ?>
 
 			<p><a href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=login-customizer' ), 'install-plugin_login-customizer' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Install Custom Login Customizer', 'zerif-lite' ); ?></a></p>
 
 			<?php
-}
+		}
 		?>
 		
 		<hr />
@@ -221,13 +215,13 @@ $customizer_url = admin_url() . 'customize.php' ;
 			<p><span class="zerif-lite-w-activated button"><?php esc_html_e( 'Already activated', 'zerif-lite' ); ?></span></p>
 
 			<?php
-} else {
-		?>
+		}
+		else { ?>
 
 			<p><a href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=adblock-notify-by-bweb' ), 'install-plugin_adblock-notify-by-bweb' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Install', 'zerif-lite' ); ?> Adblock Notify</a></p>
 
 			<?php
-}
+		} 
 		?>
 
 	</div>
@@ -243,13 +237,13 @@ $customizer_url = admin_url() . 'customize.php' ;
 			<p><span class="zerif-lite-w-activated button"><?php esc_html_e( 'Already activated', 'zerif-lite' ); ?></span></p>
 
 			<?php
-} else {
-		?>
+		}
+		else { ?>
 
 			<p><a href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=visualizer' ), 'install-plugin_visualizer' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Install Visualizer', 'zerif-lite' ); ?></a></p>
 
 			<?php
-}
+		}
 		?>
 		
 		<hr />
@@ -263,13 +257,13 @@ $customizer_url = admin_url() . 'customize.php' ;
 				<p><span class="zerif-lite-w-activated button"><?php esc_html_e( 'Already activated', 'zerif-lite' ); ?></span></p>
 
 			<?php
-} else {
-		?>
+		}
+		else { ?>
 
 				<p><a href="<?php echo esc_url( 'http://themeisle.com/plugins/easy-content-types/' ); ?>" class="button button-primary"><?php esc_html_e( 'Download Easy Content Types', 'zerif-lite' ); ?></a></p>
 
 			<?php
-}
+		}
 		?>
 		
 		<hr />
@@ -283,13 +277,13 @@ $customizer_url = admin_url() . 'customize.php' ;
 			<p><span class="zerif-lite-w-activated button"><?php esc_html_e( 'Already activated', 'zerif-lite' ); ?></span></p>
 
 			<?php
-} else {
-		?>
+		}
+		else { ?>
 
 			<p><a href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=tweet-old-post' ), 'install-plugin_tweet-old-post' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Install Revive Old Post', 'zerif-lite' ); ?></a></p>
 
 			<?php
-}
+		}
 		?>
 
 		<hr />
@@ -302,13 +296,13 @@ $customizer_url = admin_url() . 'customize.php' ;
 			<p><span class="zerif-lite-w-activated button"><?php esc_html_e( 'Already activated', 'zerif-lite' ); ?></span></p>
 
 			<?php
-} else {
-		?>
+		}
+		else { ?>
 
 			<p><a href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=feedzy-rss-feeds' ), 'install-plugin_feedzy-rss-feeds' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Install', 'zerif-lite' ); ?> FEEDZY RSS Feeds</a></p>
 
 			<?php
-}
+		}
 		?>
 
 	</div>

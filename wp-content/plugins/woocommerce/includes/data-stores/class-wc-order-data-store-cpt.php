@@ -66,6 +66,7 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 		'_shipping_address_index',
 		'_recorded_sales',
 		'_recorded_coupon_usage_counts',
+		'_shipping_method',
 	);
 
 	/**
@@ -81,8 +82,8 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 	/**
 	 * Read order data. Can be overridden by child classes to load other props.
 	 *
-	 * @param WC_Order $order
-	 * @param object   $post_object
+	 * @param WC_Order
+	 * @param object $post_object
 	 * @since 3.0.0
 	 */
 	protected function read_order_data( &$order, $post_object ) {
@@ -154,7 +155,7 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 	/**
 	 * Helper method that updates all the post meta for an order based on it's settings in the WC_Order class.
 	 *
-	 * @param WC_Order $order
+	 * @param WC_Order
 	 * @since 3.0.0
 	 */
 	protected function update_post_meta( &$order ) {
@@ -269,7 +270,7 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 	/**
 	 * Get amount already refunded.
 	 *
-	 * @param  WC_Order $order
+	 * @param  WC_Order
 	 * @return string
 	 */
 	public function get_total_refunded( $order ) {
@@ -289,7 +290,7 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 	/**
 	 * Get the total tax refunded.
 	 *
-	 * @param  WC_Order $order
+	 * @param  WC_Order
 	 * @return float
 	 */
 	public function get_total_tax_refunded( $order ) {
@@ -310,7 +311,7 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 	/**
 	 * Get the total shipping refunded.
 	 *
-	 * @param  WC_Order $order
+	 * @param  WC_Order
 	 * @return float
 	 */
 	public function get_total_shipping_refunded( $order ) {
@@ -702,18 +703,5 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 		}
 
 		return $orders;
-	}
-
-	/**
-	 * Return the order type of a given item which belongs to WC_Order.
-	 *
-	 * @since  3.2.0
-	 * @param  WC_Order $order Order Object.
-	 * @param  int      $order_item_id Order item id.
-	 * @return string Order Item type
-	 */
-	public function get_order_item_type( $order, $order_item_id ) {
-		global $wpdb;
-		return $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT order_item_type FROM {$wpdb->prefix}woocommerce_order_items WHERE order_id = %d and order_item_id = %d;", $order->get_id(), $order_item_id ) );
 	}
 }

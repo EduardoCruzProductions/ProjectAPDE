@@ -23,18 +23,6 @@ jQuery(document).ready(function() {
         return false;
     });
 
-    jQuery('input[name="pirateformsopt_recaptcha_field"]').on('click', function(){
-        if(jQuery(this).val() === 'yes'){
-            jQuery('.pirateformsopt_recaptcha').show();
-        }else{
-            jQuery('.pirateformsopt_recaptcha').hide();
-        }
-    });
-
-    if( jQuery('input[name="pirateformsopt_recaptcha_field"]:checked').val() !== 'yes' ){
-        jQuery('.pirateformsopt_recaptcha').hide();
-    }
-
     function cwpSendTestEmail() {
         jQuery('.pirate-forms-test-message').html('');
         startAjaxIntro();
@@ -57,10 +45,6 @@ jQuery(document).ready(function() {
     }
 
     function cwpTopUpdateForm() {
-        if(jQuery('#pirateformsopt_recaptcha_fieldyes').is(':checked') && (jQuery('#pirateformsopt_recaptcha_sitekey').val() === '' || jQuery('#pirateformsopt_recaptcha_secretkey').val() === '')){
-            window.alert(cwp_top_ajaxload.i10n.recaptcha);
-            return;
-        }
 
         startAjaxIntro();
 

@@ -21,12 +21,7 @@ if ( ! class_exists( 'ThemeIsle_SDK_Feedback_Review' ) ) :
 		/**
 		 * @var string $heading The heading of the modal
 		 */
-		private $heading = 'Hey, it’s great to see you have <b>{product}</b> active for a few days now. How is everything going? If you can spare a few moments to rate it on WordPress.org it would help us a lot (and boost my motivation). Cheers! <br/> <br/>~ {developer}, developer of {product}';
-
-		/**
-		 * @var string $msg The text of the modal
-		 */
-		private $msg = '';
+		private $heading = 'Hey, it’s great to see you have {product} active for a few days now. How is everything going? If you can spare a few moments to rate it on WordPress.org it would help us a lot (and boost my motivation). Cheers! <br/> <br/>~ {developer}, developer of {product}';
 
 		/**
 		 * @var string $button_cancel The text of the cancel button
@@ -61,11 +56,9 @@ if ( ! class_exists( 'ThemeIsle_SDK_Feedback_Review' ) ) :
 		}
 
 		/**
-		 * Either we can notify or not.
-		 *
-		 * @return bool Notification available or not.
+		 * Shows the notification
 		 */
-		public function can_notify() {
+		function show_notification() {
 			if ( ! $this->product->is_wordpress_available() ) {
 				$this->disable();
 
@@ -75,24 +68,9 @@ if ( ! class_exists( 'ThemeIsle_SDK_Feedback_Review' ) ) :
 			if ( 'no' === $show ) {
 				return false;
 			}
-			$finally_show = apply_filters( $this->product->get_key() . '_feedback_review_trigger', true );
-			if ( false !== $finally_show ) {
-				if ( is_array( $finally_show ) && ! empty( $finally_show ) ) {
-					$this->heading = $finally_show['heading'];
-					$this->msg     = $finally_show['msg'];
-				}
-			} else {
-				return false;
-			}
+			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 			return true;
-		}
-
-		/**
-		 * Shows the notification
-		 */
-		function show_notification() {
-			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 		}
 
 		/**
@@ -166,17 +144,15 @@ if ( ! class_exists( 'ThemeIsle_SDK_Feedback_Review' ) ) :
 			$heading = apply_filters( $this->product->get_key() . '_feedback_review_heading', $this->heading );
 			$heading = str_replace(
 				array( '{product}' ),
-				$this->product->get_friendly_name(), $heading
+				trim( str_replace( 'Lite', '', $this->product->get_name() ) ), $heading
 			);
 			$heading = str_replace( '{developer}', $this->developers[ $this->product->get_type() ][ rand( 0, ( count( $this->developers[ $this->product->get_type() ] ) - 1 ) ) ], $heading );
 
 			$button_cancel = apply_filters( $this->product->get_key() . '_feedback_review_button_cancel', $this->button_cancel );
 			$button_do     = apply_filters( $this->product->get_key() . '_feedback_review_button_do', $this->button_do );
-			$msg           = apply_filters( $this->product->get_key() . '_feedback_review_message', $this->msg );
 
 			return '<div id="' . $this->product->get_key() . '-review-notification" class="themeisle-sdk-review-box">'
 				   . '<p>' . $heading . '</p>'
-				   . ( $msg ? '<p>' . $msg . '</p>' : '' )
 				   . '<div class="actions">'
 				   . '<a href="' . $link . '" target="_blank" class="button button-primary review-dismiss"> ' . $button_do . '</a>'
 				   . get_submit_button( $button_cancel, 'review-dismiss ' . $this->product->get_key() . '-ti-review', $this->product->get_key() . 'ti-review-no', false )

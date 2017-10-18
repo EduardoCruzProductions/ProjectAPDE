@@ -4,7 +4,7 @@
  * Plugin Name: Photo Gallery
  * Plugin URI: https://web-dorado.com/products/wordpress-photo-gallery-plugin.html
  * Description: This plugin is a fully responsive gallery plugin with advanced functionality.  It allows having different image galleries for your posts and pages. You can create unlimited number of galleries, combine them into albums, and provide descriptions and tags.
- * Version: 1.3.58
+ * Version: 1.3.53
  * Author: Photo Gallery Team
  * Author URI: https://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,8 +15,6 @@ define('WD_BWG_URL', plugins_url(plugin_basename(dirname(__FILE__))));
 define('WD_BWG_NAME', plugin_basename(dirname(__FILE__)));
 define('WD_BWG_PRO', false);
 define('WD_BWG_VERSION', get_option('wd_bwg_version'));
-define('WD_BWG_PREFIX', 'bwg');
-define('WD_BWG_NICENAME', __( 'Photo Gallery', WD_BWG_PREFIX ));
 $wd_bwg_inline_stiles = FALSE;
 
 function bwg_use_home_url() {
@@ -283,15 +281,218 @@ function bwg_shortcode($params) {
       }
     }
     else {
-		return;
+      die();
     }
-  }  	
-	$pairs = array();
-	$pairs = WDWLibrary::get_shortcode_option_params( $params );
-	ob_start();
-	bwg_front_end( $pairs );
-	return str_replace(array("\r\n", "\n", "\r"), '', ob_get_clean());
-    // return ob_get_clean();
+  }
+  shortcode_atts(array(
+    'gallery_type' => 'thumbnails',
+    'theme_id' => 1,
+  ), $params);
+  switch ($params['gallery_type']) {
+    case 'thumbnails': {
+      shortcode_atts(array(
+        'gallery_id' => 1,
+        'sort_by' => 'order',
+        'order_by' => 'asc',
+        'show_search_box' => 0,
+        'search_box_width' => 180,
+        'image_column_number' => 3,
+        'images_per_page' => 15,
+        'image_title' => 'none',
+        'image_enable_page' => 1,
+        'thumb_width' => 120,
+        'thumb_height' => 90,
+        'image_width' => 800,
+        'image_height' => 600,
+        'image_effect' => 'fade',
+        'enable_image_filmstrip' => 0,
+        'image_filmstrip_height' => 50,
+        'enable_image_ctrl_btn' => 1,
+        'enable_image_fullscreen' => 1,
+        'enable_comment_social' => 1,
+        'enable_image_facebook' => 1,
+        'enable_image_twitter' => 1,
+        'enable_image_google' => 1,
+        'watermark_type' => 'none',
+        'load_more_image_count' => 15,
+        'show_tag_box' => 0,
+        'show_gallery_description' => 0,
+        'showthumbs_name' => 0,
+      ), $params);
+      break;
+
+    }
+    
+    case 'slideshow': {
+      shortcode_atts(array(
+        'gallery_id' => 1,
+        'sort_by' => 'order',
+        'order_by' => 'asc',
+        'slideshow_effect' => 'fade',
+        'slideshow_interval' => 5,
+        'slideshow_width' => 800,
+        'slideshow_height' => 600,
+        'enable_slideshow_autoplay' => 0,
+        'enable_slideshow_shuffle' => 0,
+        'enable_slideshow_ctrl' => 1,
+        'enable_slideshow_filmstrip' => 0,
+        'slideshow_filmstrip_height' => 70,
+        'slideshow_enable_title' => 0,
+        'slideshow_title_full_width' => 0,
+        'slideshow_title_position' => 'top-right',
+        'slideshow_enable_description' => 0,
+        'slideshow_description_position' => 'bottom-right',
+        'enable_slideshow_music' => 0,
+        'slideshow_music_url' => '',
+        'slideshow_effect_duration' => 1,
+        'show_gallery_description' => 0
+      ), $params);
+      break;
+
+    }
+    case 'image_browser': {
+      shortcode_atts(array(
+        'gallery_id' => 1,
+        'sort_by' => 'order',
+        'order_by' => 'asc',
+        'show_search_box' => 0,
+        'search_box_width' => 180,
+        'image_browser_width' => 800,
+        'image_browser_title_enable' => 1,
+        'image_browser_description_enable' => 1,
+        'watermark_type' => 'none',
+        'show_gallery_description' => 0,
+        'showthumbs_name' => 0,
+      ), $params);
+      break;
+
+    }
+    case 'album_compact_preview': {
+      shortcode_atts(array(
+        'album_id' => 1,
+        'sort_by' => 'order',
+        'show_search_box' => 0,
+        'search_box_width' => 180,
+        'compuct_album_column_number' => 3,
+        'compuct_albums_per_page' => 15,
+        'compuct_album_title' => 'hover',
+        'compuct_album_view_type' => 'thumbnail',
+        'compuct_album_thumb_width' => 120,
+        'compuct_album_thumb_height' => 90,
+        'compuct_album_image_column_number' => 3,
+        'compuct_album_images_per_page' => 15,
+        'compuct_album_image_title' => 'none',
+        'compuct_album_image_thumb_width' => 120,
+        'compuct_album_image_thumb_height' => 120,
+        'compuct_album_enable_page' => 1,
+        'watermark_type' => 'none',
+        'compuct_album_load_more_image_count' => 15,
+        'compuct_albums_per_page_load_more' => 15,
+        'show_gallery_description' => 0,
+        'show_album_name' => 0,
+      ), $params);
+      break;
+
+    }
+    case 'album_extended_preview': {
+      shortcode_atts(array(
+        'album_id' => 1,
+        'sort_by' => 'order',
+        'show_search_box' => 0,
+        'search_box_width' => 180,
+        'extended_albums_per_page' => 15,
+        'extended_album_height' => 150,
+        'extended_album_description_enable' => 1,
+        'extended_album_view_type' => 'thumbnail',
+        'extended_album_thumb_width' => 120,
+        'extended_album_thumb_height' => 90,
+        'extended_album_image_column_number' => 3,
+        'extended_album_images_per_page' => 15,
+        'extended_album_image_title' => 'none',
+        'extended_album_image_thumb_width' => 120,
+        'extended_album_image_thumb_height' => 90,
+        'extended_album_enable_page' => 1,
+        'watermark_type' => 'none',
+        'extended_album_load_more_image_count' => 15,
+        'extended_albums_per_page_load_more' => 15,
+        'show_gallery_description' => 0,
+        'show_album_name' => 0,
+      ), $params);
+      break;
+
+    }
+
+    default: {
+      die();
+    }
+  }
+
+    shortcode_atts(array(
+        'popup_fullscreen' => 0,
+        'popup_autoplay' => 0,
+        'popup_width' => 800,
+        'popup_height' => 600,
+        'popup_effect' => 'fade',
+        'popup_interval' => 5,
+        'popup_enable_filmstrip' => 0,
+        'popup_filmstrip_height' => 70,
+        'popup_enable_ctrl_btn' => 1,
+        'popup_enable_fullscreen' => 1,
+        'popup_enable_info' => 1,
+        'popup_info_full_width' => 0,
+        'popup_info_always_show' => 0,
+        'popup_hit_counter' => 0,
+        'popup_enable_rate' => 0,
+        'popup_enable_comment' => 1,
+        'popup_enable_facebook' => 1,
+        'popup_enable_twitter' => 1,
+        'popup_enable_google' => 1,
+        'popup_enable_pinterest' => 0,
+        'popup_enable_tumblr' => 0,
+        'watermark_type' => 'none',
+        'popup_effect_duration' => 1,
+      ), $params);
+
+  switch ($params['watermark_type']) {
+    case 'text': {
+      shortcode_atts(array(
+        'watermark_link' => '',
+        'watermark_text' => '',
+        'watermark_font_size' => 12,
+        'watermark_font' => 'segoe ui',
+        'watermark_color' => 'FFFFFF',
+        'watermark_opacity' => 30,
+        'watermark_position' => 'bottom-right',
+      ), $params);
+      break;
+
+    }
+    case 'image': {
+      shortcode_atts(array(
+        'watermark_link' => '',
+        'watermark_url' => '',
+        'watermark_width' => 120,
+        'watermark_height' => 90,
+        'watermark_opacity' => 30,
+        'watermark_position' => 'bottom-right',
+      ), $params);
+      break;
+
+    }
+    default: {
+      $params['watermark_type'] = 'none';
+      break;
+    }
+  }
+  foreach ($params as $key => $param) {
+    if (empty($param[$key]) == FALSE) {
+      $param[$key] = esc_html(addslashes($param[$key]));
+    }
+  }
+  ob_start();
+  bwg_front_end($params);
+  return str_replace(array("\r\n", "\n", "\r"), '', ob_get_clean());
+  // return ob_get_clean();
 }
 add_shortcode('Best_Wordpress_Gallery', 'bwg_shortcode');
 
@@ -1504,7 +1705,7 @@ function bwg_activate() {
   }
 
   $version = get_option('wd_bwg_version');
-  $new_version = '1.3.58';
+  $new_version = '1.3.53';
   if ($version && version_compare($version, $new_version, '<')) {
     require_once WD_BWG_DIR . "/update/bwg_update.php";
     bwg_update($version);
@@ -1519,6 +1720,11 @@ function bwg_activate() {
   else {
     add_option("wd_bwg_version", $new_version, '', 'no');
     add_option("wd_bwg_theme_version", '1.0.0', '', 'no');
+  }
+
+  // Check if notice or popup already exist for other plugins
+  if( get_option('wds_bk_notice_status') === false ) {
+    add_option('wds_bk_notice_status', '');
   }
 }
 
@@ -1556,7 +1762,7 @@ wp_oembed_add_provider( '#https://instagr(\.am|am\.com)/p/.*#i', 'https://api.in
 
 function bwg_update_hook() {
   $version = get_option('wd_bwg_version');
-  $new_version = '1.3.58';
+  $new_version = '1.3.53';
   if ($version && version_compare($version, $new_version, '<')) {
     require_once WD_BWG_DIR . "/update/bwg_update.php";
     bwg_update($version);
@@ -2401,89 +2607,58 @@ function bwg_overview() {
 }
 add_action('init', 'bwg_overview', 9);
 
-/**
- * Show notice to install backup plugin
- */
-function bwg_bp_install_notice() {
-  // Remove old notice.
-  if ( get_option('wds_bk_notice_status') !== FALSE ) {
+if (!function_exists('wd_bp_install_notice')) {
+  $wd_bp_plugin_url = WD_BWG_URL;
+  function wd_bp_script_style() {
+    global $wd_bp_plugin_url;
+    wp_enqueue_script('wd_bck_install', $wd_bp_plugin_url . '/js/wd_bp_install.js', array('jquery'));
+    wp_enqueue_style('wd_bck_install', $wd_bp_plugin_url . '/css/wd_bp_install.css');
+  }
+  add_action('admin_enqueue_scripts', 'wd_bp_script_style');
+
+  /**
+   * Show notice to install backup plugin
+   */
+  function wd_bp_install_notice() {
+    global $wd_bp_plugin_url;
+    $prefix = 'bwg_back';
+    $meta_value = get_option('wds_bk_notice_status');
+    if ($meta_value === '' || $meta_value === false) {
+      ob_start();
+      ?>
+      <div class="notice notice-info" id="wd_bp_notice_cont">
+        <p>
+          <img id="wd_bp_logo_notice" src="<?php echo $wd_bp_plugin_url . '/images/logo.png'; ?>">
+          <?php _e("Hey! Install brand new FREE", $prefix) ?>
+          <a href="https://wordpress.org/plugins/backup-wd/" title="<?php _e("More details", $prefix) ?>"
+             target="_blank"><?php _e("Backup WD", $prefix) ?></a>
+          <?php _e("plugin to keep your images and website safe.", $prefix) ?>
+          <a class="button button-primary"
+             href="<?php echo esc_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=backup-wd'), 'install-plugin_backup-wd')); ?>">
+            <span onclick="wd_bp_notice_install()"><?php _e("Install", $prefix); ?></span>
+          </a>
+        </p>
+        <button type="button" class="wd_bp_notice_dissmiss notice-dismiss"><span class="screen-reader-text"></span>
+        </button>
+      </div>
+      <script>wd_bp_url = '<?php echo add_query_arg(array('action' => 'wd_bp_dismiss',), admin_url('admin-ajax.php')); ?>'</script>
+      <?php
+      echo ob_get_clean();
+    }
+  }
+
+  if (!is_dir(plugin_dir_path(__DIR__) . 'backup-wd')) {
+    add_action('admin_notices', 'wd_bp_install_notice');
+  }
+
+  /**
+   * Add usermeta to db
+   *
+   * empty: notice,
+   * 1    : never show again
+   */
+  function wd_bp_install_notice_status() {
     update_option('wds_bk_notice_status', '1', 'no');
   }
-
-  // Show notice only on plugin pages.
-  if ( !isset($_GET['page']) || strpos(esc_html($_GET['page']), '_bwg') === FALSE ) {
-    return '';
-  }
-
-  $meta_value = get_option('wd_bk_notice_status');
-  if ( $meta_value === '' || $meta_value === FALSE ) {
-    ob_start();
-    $prefix = WD_BWG_PREFIX;
-    $nicename = WD_BWG_NICENAME;
-    $url = WD_BWG_URL;
-    $dismiss_url = add_query_arg(array( 'action' => 'wd_bp_dismiss' ), admin_url('admin-ajax.php'));
-    $install_url = esc_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=backup-wd'), 'install-plugin_backup-wd'));
-    ?>
-    <div class="notice notice-info" id="wd_bp_notice_cont">
-      <p>
-        <img id="wd_bp_logo_notice" src="<?php echo $url . '/images/logo.png'; ?>" />
-        <?php echo sprintf(__("%s advises: Install brand new FREE %s plugin to keep your images and website safe.", $prefix), $nicename, '<a href="https://wordpress.org/plugins/backup-wd/" title="' . __("More details", $prefix) . '" target="_blank">' .  __("Backup WD", $prefix) . '</a>'); ?>
-        <a class="button button-primary" href="<?php echo $install_url; ?>">
-          <span onclick="jQuery.post('<?php echo $dismiss_url; ?>');"><?php _e("Install", $prefix); ?></span>
-        </a>
-      </p>
-      <button type="button" class="wd_bp_notice_dissmiss notice-dismiss" onclick="jQuery('#wd_bp_notice_cont').hide(); jQuery.post('<?php echo $dismiss_url; ?>');"><span class="screen-reader-text"></span></button>
-    </div>
-    <style>
-      @media only screen and (max-width: 500px) {
-        body #wd_backup_logo {
-          max-width: 100%;
-        }
-        body #wd_bp_notice_cont p {
-          padding-right: 25px !important;
-        }
-      }
-      #wd_bp_logo_notice {
-        width: 40px;
-        float: left;
-        margin-right: 10px;
-      }
-      #wd_bp_notice_cont {
-        position: relative;
-      }
-      #wd_bp_notice_cont a {
-        margin: 0 5px;
-      }
-      #wd_bp_notice_cont .dashicons-dismiss:before {
-        content: "\f153";
-        background: 0 0;
-        color: #72777c;
-        display: block;
-        font: 400 16px/20px dashicons;
-        speak: none;
-        height: 20px;
-        text-align: center;
-        width: 20px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      .wd_bp_notice_dissmiss {
-        margin-top: 5px;
-      }
-    </style>
-    <?php
-    echo ob_get_clean();
-  }
-}
-
-if ( !is_dir(plugin_dir_path(__DIR__) . 'backup-wd') ) {
-  add_action('admin_notices', 'bwg_bp_install_notice');
-}
-
-if ( !function_exists('wd_bps_install_notice_status') ) {
-  // Add usermeta to db.
-  function wd_bps_install_notice_status() {
-    update_option('wd_bk_notice_status', '1', 'no');
-  }
-  add_action('wp_ajax_wd_bp_dismiss', 'wd_bps_install_notice_status');
+  add_action('wp_ajax_wd_bp_dismiss', 'wd_bp_install_notice_status');
 }

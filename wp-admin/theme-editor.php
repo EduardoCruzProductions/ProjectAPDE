@@ -99,7 +99,7 @@ if ( empty( $file ) ) {
 	$relative_file = 'style.css';
 	$file = $allowed_files['style.css'];
 } else {
-	$relative_file = wp_unslash( $file );
+	$relative_file = $file;
 	$file = $theme->get_stylesheet_directory() . '/' . $relative_file;
 }
 
@@ -156,12 +156,10 @@ default:
  <div id="message" class="updated notice is-dismissible"><p><?php _e( 'File edited successfully.' ) ?></p></div>
 <?php endif;
 
-$file_description = get_file_description( $relative_file );
+$description = get_file_description( $relative_file );
 $file_show = array_search( $file, array_filter( $allowed_files ) );
-$description = esc_html( $file_description );
-if ( $file_description != $file_show ) {
-	$description .= ' <span>(' . esc_html( $file_show ) . ')</span>';
-}
+if ( $description != $file_show )
+	$description .= ' <span>(' . $file_show . ')</span>';
 ?>
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
@@ -232,9 +230,9 @@ if ( $allowed_files ) :
 			echo "\t<ul>\n";
 		}
 
-		$file_description = esc_html( get_file_description( $filename ) );
+		$file_description = get_file_description( $filename );
 		if ( $filename !== basename( $absolute_filename ) || $file_description !== $filename ) {
-			$file_description .= '<br /><span class="nonessential">(' . esc_html( $filename ) . ')</span>';
+			$file_description .= '<br /><span class="nonessential">(' . $filename . ')</span>';
 		}
 
 		if ( $absolute_filename === $file ) {

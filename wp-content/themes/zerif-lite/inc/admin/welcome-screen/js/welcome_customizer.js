@@ -1,4 +1,3 @@
-/* global zerifLiteWelcomeScreenCustomizerObject */
 jQuery(document).ready(function() {
     var zerif_aboutpage = zerifLiteWelcomeScreenCustomizerObject.aboutpage;
     var zerif_nr_actions_required = zerifLiteWelcomeScreenCustomizerObject.nr_actions_required;

@@ -22,31 +22,21 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 */
 	function tribe_is_new_event_day() {
 		global $post;
-
 		$tribe_ecp = Tribe__Events__Main::instance();
 		$retval    = false;
 		$now       = time();
-
 		if ( isset( $post->EventStartDate ) ) {
 			$postTimestamp = strtotime( $post->EventStartDate, $now );
 			$postTimestamp = strtotime( date( Tribe__Date_Utils::DBDATEFORMAT, $postTimestamp ), $now ); // strip the time
-
 			if ( $postTimestamp != $tribe_ecp->currentPostTimestamp ) {
 				$retval = true;
 			}
-
 			$tribe_ecp->currentPostTimestamp = $postTimestamp;
 			$return                          = $retval;
 		} else {
 			$return = true;
 		}
 
-		/**
-		 * Allows for customization of the result of whether the current event is on a different day
-		 * from the one preceding it. Defaults to "true" for first event in the loop.
-		 *
-		 * @param bool $return Whether the current event is on a different day than its antecedent.
-		 */
 		return apply_filters( 'tribe_is_new_event_day', $return );
 	}
 
@@ -61,11 +51,6 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 		global $wp_query;
 		$is_past = ! empty( $wp_query->tribe_is_past ) && ! tribe_is_showing_all() ? $wp_query->tribe_is_past : false;
 
-		/**
-		 * Allows for customization of the result of whether the current view shows past events.
-		 *
-		 * @param bool $is_past Whether the current view shows upcoming past or not.
-		 */
 		return apply_filters( 'tribe_is_past', $is_past );
 	}
 
@@ -80,11 +65,6 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 		global $wp_query;
 		$is_upcoming = ( tribe_is_list_view() && ! tribe_is_past() ) ? true : false;
 
-		/**
-		 * Allows for customization of the result of whether the current view shows upcoming events.
-		 *
-		 * @param bool $is_upcoming Whether the current view shows upcoming events or not.
-		 */
 		return apply_filters( 'tribe_is_upcoming', $is_upcoming );
 	}
 
@@ -99,16 +79,10 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	function tribe_is_showing_all() {
 		$tribe_ecp            = Tribe__Events__Main::instance();
 		$tribe_is_showing_all = ( $tribe_ecp->displaying == 'all' ) ? true : false;
-
 		if ( $tribe_is_showing_all ) {
 			add_filter( 'tribe_events_recurrence_tooltip', '__return_false' );
 		}
 
-		/**
-		 * Allows for customization of the result of whether the current view shows all events.
-		 *
-		 * @param bool $tribe_is_showing_all Whether the current view shows all events or not.
-		 */
 		return apply_filters( 'tribe_is_showing_all', $tribe_is_showing_all );
 	}
 
@@ -122,11 +96,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	function tribe_is_by_date() {
 		$tribe_ecp        = Tribe__Events__Main::instance();
 		$tribe_is_by_date = ( $tribe_ecp->displaying == 'bydate' ) ? true : false;
-		/**
-		 * Allows for customization of the result of whether or not a "bydate" view is being viewed.
-		 *
-		 * @param bool $tribe_is_by_date Whether a "bydate" calendar view is currently being displayed.
-		 */
+
 		return apply_filters( 'tribe_is_by_date', $tribe_is_by_date );
 	}
 
@@ -138,13 +108,7 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 	 * @param bool $depth include linked title
 	 */
 	function tribe_events_title( $depth = true ) {
-		/**
-		 * Allows for customization of the title on the main "Events" page.
-		 *
-		 * @param string $title The events title as a result of the tribe_get_events_title() template tag.
-		 * @param bool $depth Whether to include the linked title or not.
-		 */
-		echo apply_filters( 'tribe_events_title', tribe_get_events_title( $depth ), $depth );
+		echo apply_filters( 'tribe_events_title', tribe_get_events_title( $depth ) );
 	}
 
 	/**
@@ -216,12 +180,6 @@ if ( class_exists( 'Tribe__Events__Main' ) ) {
 			$title .= ' &#8250; ' . $cat->name;
 		}
 
-		/**
-		 * Allows for customization of the "Events" page title.
-		 *
-		 * @param string $title The "Events" page title as it's been generated thus far.
-		 * @param bool $depth Whether to include the linked title or not.
-		 */
 		return apply_filters( 'tribe_get_events_title', $title, $depth );
 	}
 

@@ -1,38 +1,37 @@
-<?php
-/**
- * The default template used for displaying page content
- *
- * @package zerif-lite
- */
-?>
-
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?> itemtype="http://schema.org/BlogPosting" itemtype="http://schema.org/BlogPosting">
-	<?php
-	if ( ! is_search() ) {
 
-		$post_thumbnail_url = get_the_post_thumbnail( get_the_ID(), 'zerif-post-thumbnail' );
+	<?php if ( ! is_search() ) : ?>
 
-		if ( ! empty( $post_thumbnail_url ) ) {
 
-			echo '<div class="post-img-wrap">';
 
-				echo '<a href="' . esc_url( get_permalink() ) . '" title="' . the_title_attribute( 'echo=0' ) . '" >';
+		<?php
+        $post_thumbnail_url = get_the_post_thumbnail( get_the_ID(), 'zerif-post-thumbnail' );
 
-					echo $post_thumbnail_url;
+		if ( ! empty( $post_thumbnail_url ) ): ?>
 
-				echo '</a>';
+            <div class="post-img-wrap">
 
-			echo '</div>';
+                <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" >
 
-			echo '<div class="listpost-content-wrap">';
-		} else {
+                    <?php echo $post_thumbnail_url; ?>
 
-			echo '<div class="listpost-content-wrap-full">';
-		}
-	} else {
-		echo '<div class="listpost-content-wrap-full">';
-	}
-	?>
+                </a>
+
+            </div>
+
+		<div class="listpost-content-wrap">
+
+		<?php else: ?>
+
+		<div class="listpost-content-wrap-full">
+
+		<?php endif; ?>
+
+	<?php else:  ?>
+
+			<div class="listpost-content-wrap-full">
+
+	<?php endif; ?>
 
 	<div class="list-post-top">
 
@@ -52,78 +51,84 @@
 
 	</header><!-- .entry-header -->
 
-	<?php
-	if ( is_search() ) {
+	<?php if ( is_search() ) : // Only display Excerpts for Search ?>
 
-		echo '<div class="entry-summary">';
+	<div class="entry-summary">
 
-		the_excerpt();
-	} else {
+		<?php the_excerpt(); ?>
+		
+	<?php else : ?>
 
-		echo '<div class="entry-content">';
+	<div class="entry-content">
 
-		$ismore = ! empty( $post->post_content ) ? strpos( $post->post_content, '<!--more-->' ) : '';
+		<?php
 
-		if ( ! empty( $ismore ) ) {
-			the_content( sprintf( esc_html__( '[&hellip;]', 'zerif-lite' ), '<span class="screen-reader-text">' . esc_html__( 'about ', 'zerif-lite' ) . get_the_title() . '</span>' ) );
-		} else {
-			the_excerpt();
-		}
+		    $ismore = ! empty( $post->post_content ) ? strpos( $post->post_content, '<!--more-->') : '';
 
-		wp_link_pages(
-			array(
+		    if ( !empty($ismore) ) {
+				the_content( sprintf( esc_html__('[&hellip;]','zerif-lite'), '<span class="screen-reader-text">'.esc_html__('about ', 'zerif-lite').get_the_title().'</span>' ) );
+			} else {
+				the_excerpt();
+			}
+			
+			wp_link_pages( array(
+
 				'before' => '<div class="page-links">' . __( 'Pages:', 'zerif-lite' ),
-				'after' => '</div>',
-			)
-		);
-	}
-	?>
+
+				'after'  => '</div>',
+
+			) );
+
+		endif; ?>
 
 	<footer class="entry-footer">
 
-		<?php
-		if ( 'post' == get_post_type() ) { // Hide category and tag text for pages on Search
+		<?php if ( 'post' == get_post_type() ) : // Hide category and tag text for pages on Search ?>
 
-			/* translators: used between list items, there is a space after the comma */
-			$categories_list = get_the_category_list( __( ', ', 'zerif-lite' ) );
+			<?php
 
-			if ( $categories_list && zerif_categorized_blog() ) {
+				/* translators: used between list items, there is a space after the comma */
+				$categories_list = get_the_category_list( __( ', ', 'zerif-lite' ) );
 
-				echo '<span class="cat-links">';
+				if ( $categories_list && zerif_categorized_blog() ) :
 
-				/* Translators: Categories list */
-				printf( __( 'Posted in %1$s', 'zerif-lite' ), $categories_list );
+			?>
 
-				echo '</span>';
+			<span class="cat-links">
 
-			} // End if categories
+				<?php printf( __( 'Posted in %1$s', 'zerif-lite' ), $categories_list ); ?>
 
-			/* translators: used between list items, there is a space after the comma */
+			</span>
 
-			$tags_list = get_the_tag_list( '', __( ', ', 'zerif-lite' ) );
+			<?php endif; // End if categories ?>
 
-			if ( $tags_list ) {
+			<?php
 
-				echo '<span class="tags-links">';
+				/* translators: used between list items, there is a space after the comma */
 
-				/* translators: Tags list */
-				printf( __( 'Tagged %1$s', 'zerif-lite' ), $tags_list );
+				$tags_list = get_the_tag_list( '', __( ', ', 'zerif-lite' ) );
 
-				echo '</span>';
+				if ( $tags_list ) :
 
-			}
-		}
+			?>
 
-		if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) {
+			<span class="tags-links">
 
-			echo '<span class="comments-link">';
-				comments_popup_link( __( 'Leave a comment', 'zerif-lite' ), __( '1 Comment', 'zerif-lite' ), __( '% Comments', 'zerif-lite' ) );
-			echo '</span>';
+				<?php printf( __( 'Tagged %1$s', 'zerif-lite' ), $tags_list ); ?>
 
-		}
+			</span>
 
-		edit_post_link( __( 'Edit', 'zerif-lite' ), '<span class="edit-link">', '</span>' );
-		?>
+			<?php endif; // End if $tags_list ?>
+
+		<?php endif; // End if 'post' == get_post_type() ?>
+
+		<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
+
+		<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'zerif-lite' ), __( '1 Comment', 'zerif-lite' ), __( '% Comments', 'zerif-lite' ) ); ?></span>
+
+		<?php endif; ?>
+
+		<?php edit_post_link( __( 'Edit', 'zerif-lite' ), '<span class="edit-link">', '</span>' ); ?>
 
 	</footer><!-- .entry-footer -->
 

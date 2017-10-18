@@ -236,7 +236,6 @@ class Tribe__Events__iCal {
 
 			$full_format = 'Ymd\THis';
 			$utc_format = 'Ymd\THis\Z';
-			$all_day = ( 'yes' === get_post_meta( $event_post->ID, '_EventAllDay', true ) );
 			$time = (object) array(
 				'start' => tribe_get_start_date( $event_post->ID, false, 'U' ),
 				'end' => tribe_get_end_date( $event_post->ID, false, 'U' ),
@@ -244,7 +243,7 @@ class Tribe__Events__iCal {
 				'created' => Tribe__Date_Utils::wp_strtotime( $event_post->post_date ),
 			);
 
-			if ( $all_day ) {
+			if ( 'yes' == get_post_meta( $event_post->ID, '_EventAllDay', true ) ) {
 				$type = 'DATE';
 				$format = 'Ymd';
 			} else {
@@ -259,25 +258,17 @@ class Tribe__Events__iCal {
 				'created'  => date( $utc_format, $time->created ),
 			);
 
-			$dtstart = $tzoned->start;
-			$dtend   = $tzoned->end;
-
-			if ( 'DATE' === $type ) {
-				// For all day events dtend should always be +1 day.
-				if ( $all_day ) {
-					$dtend = date( $format, strtotime( '+1 day', strtotime( $dtend ) ) );
-				}
-
-				$item[] = 'DTSTART;VALUE=' . $type . ':' . $dtstart;
-				$item[] = 'DTEND;VALUE=' . $type . ':' . $dtend;
+			if ( 'DATE' === $type ){
+				$item[] = "DTSTART;VALUE=$type:" . $tzoned->start;
+				$item[] = "DTEND;VALUE=$type:" . $tzoned->end;
 			} else {
 				// Are we using the sitewide timezone or the local event timezone?
 				$tz = Tribe__Events__Timezones::EVENT_TIMEZONE === Tribe__Events__Timezones::mode()
 					? Tribe__Events__Timezones::get_event_timezone_string( $event_post->ID )
 					: Tribe__Events__Timezones::wp_timezone_string();
 
-				$item[] = 'DTSTART;TZID=' . $tz . ':' . $dtstart;
-				$item[] = 'DTEND;TZID=' . $tz . ':' . $dtend;
+				$item[] = 'DTSTART;TZID=' . $tz . ':' . $tzoned->start;
+				$item[] = 'DTEND;TZID=' . $tz . ':' . $tzoned->end;
 			}
 
 			$item[] = 'DTSTAMP:' . date( $full_format, time() );

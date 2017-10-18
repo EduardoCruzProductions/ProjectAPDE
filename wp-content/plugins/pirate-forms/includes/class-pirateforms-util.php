@@ -8,34 +8,6 @@
 class PirateForms_Util {
 
 	/**
-	 * Return the table.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function get_table( $body ) {
-		$html       = '';
-		foreach ( $body as $type => $value ) {
-			switch ( $type ) {
-				case 'heading':
-					$html   .= '<h2>' . $value . '</h2>';
-					break;
-				case 'body':
-					$html   .= '<table>';
-					foreach ( $value as $k => $v ) {
-						$html   .= self::table_row( $k . ':', $v );
-					}
-					if ( isset( $body['rows'] ) ) {
-						// special case for new lite and old pro where the old pro returns the table rows as an HTML string.
-						$html   .= $body['rows'];
-					}
-					$html   .= '</table>';
-					break;
-			}
-		}
-		return $html;
-	}
-
-	/**
 	 * Return the table row
 	 *
 	 * @since    1.0.0
@@ -200,32 +172,7 @@ class PirateForms_Util {
 	 * @since    1.0.0
 	 */
 	public static function get_form_options( $id = null ) {
-		if ( empty( $id ) ) {
-			$id = null;
-		}
 		$pirate_forms_options = self::get_option();
 		return apply_filters( 'pirateformpro_get_form_attributes', $pirate_forms_options, $id );
-	}
-
-
-	/**
-	 * Start sessing if it does not exist.
-	 */
-	public static function session_start() {
-		if ( session_id() === '' ) {
-			// @codingStandardsIgnoreStart
-			@session_start();
-			// @codingStandardsIgnoreEnd
-		}
-	}
-
-	/**
-	 * Seed the session variable that contains the error(s).
-	 */
-	public static function save_error( $error_key, $new_error_key ) {
-		$array      = $_SESSION[ $error_key ];
-		$_SESSION[ 'error' . $new_error_key ] = $array;
-		unset( $_SESSION[ $error_key ] );
-		return false;
 	}
 }

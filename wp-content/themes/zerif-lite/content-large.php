@@ -1,28 +1,21 @@
-<?php
-/**
- * Content used in template-blog-large.php
- *
- * @package zerif-lite
- */
-?>
 <article class="large-container" id="post-<?php the_ID(); ?>" <?php post_class(); ?> itemtype="http://schema.org/BlogPosting" itemtype="http://schema.org/BlogPosting">
 
 	<?php if ( ! is_search() ) : ?>
 
-		<?php if ( has_post_thumbnail() ) : ?>
+		<?php if ( has_post_thumbnail()) : ?>
 
 		<div class="post-img-wrap-large">
 
-				 <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" >
+			 	<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" >
 
-					<?php
+					<?php 
 						$image_id = get_post_thumbnail_id();
-						$image_url_big = wp_get_attachment_image_url( $image_id,'zerif-post-thumbnail-large', true );
-						$image_url_tablet = wp_get_attachment_image_url( $image_id,'zerif-post-thumbnail-large-table', true );
-						$image_url_mobile = wp_get_attachment_image_url( $image_id,'zerif-post-thumbnail-large-mobile', true );
+						$image_url_big = wp_get_attachment_image_url($image_id,'zerif-post-thumbnail-large', true);
+						$image_url_tablet = wp_get_attachment_image_url($image_id,'zerif-post-thumbnail-large-table', true);
+						$image_url_mobile = wp_get_attachment_image_url($image_id,'zerif-post-thumbnail-large-mobile', true);
 					?>
 
-					 <picture>
+			 		<picture>
 						<source media="(max-width: 600px)" srcset="<?php echo esc_url( $image_url_mobile ); ?>">
 						<source media="(max-width: 768px)" srcset="<?php echo esc_url( $image_url_tablet ); ?>">
 						<img src="<?php echo esc_url( $image_url_big ); ?>" alt="<?php the_title_attribute(); ?>">
@@ -34,13 +27,13 @@
 
 		<div class="listpost-content-wrap-large">
 
-		<?php else : ?>
+		<?php else: ?>
 
 		<div class="listpost-content-wrap-full">
 
 		<?php endif; ?>
 
-	<?php else : ?>
+	<?php else:  ?>
 
 			<div class="listpost-content-wrap-full">
 
@@ -67,22 +60,23 @@
 	<div class="entry-content">
 
 		<?php
-		if ( ! empty( $post->post_content ) ) {
-			$ismore = strpos( $post->post_content, '<!--more-->' );
-		}
+            if ( ! empty( $post->post_content ) ) {
+                $ismore = strpos($post->post_content, '<!--more-->');
+            }
+			
+			if ( $ismore ) {
+				the_content( sprintf( esc_html__('[&hellip;]','zerif-lite'), '<span class="screen-reader-text">'.esc_html__('about ', 'zerif-lite').get_the_title().'</span>' ) );
+			} else {
+				the_excerpt();
+			}
 
-		if ( $ismore ) {
-			the_content( sprintf( esc_html__( '[&hellip;]','zerif-lite' ), '<span class="screen-reader-text">' . esc_html__( 'about ', 'zerif-lite' ) . get_the_title() . '</span>' ) );
-		} else {
-			the_excerpt();
-		}
+			wp_link_pages( array(
 
-		wp_link_pages(
-			array(
 				'before' => '<div class="page-links">' . __( 'Pages:', 'zerif-lite' ),
+
 				'after'  => '</div>',
-			)
-		);
+
+			) );
 		?>
 
 	</div><!-- .entry-content -->
@@ -113,13 +107,13 @@
 
 					$categories_list = get_the_category_list( __( ', ', 'zerif-lite' ) );
 
-				if ( $categories_list && zerif_categorized_blog() ) :
+					if ( $categories_list && zerif_categorized_blog() ) :
 
 				?>
 
 				<span class="cat-links">
 
-				<?php /* translators: Categories list */ printf( __( 'Posted in %1$s', 'zerif-lite' ), $categories_list ); ?>
+					<?php printf( __( 'Posted in %1$s', 'zerif-lite' ), $categories_list ); ?>
 
 				</span>
 
@@ -131,13 +125,13 @@
 
 					$tags_list = get_the_tag_list( '', __( ', ', 'zerif-lite' ) );
 
-				if ( $tags_list ) :
+					if ( $tags_list ) :
 
 				?>
 
 				<span class="tags-links">
 
-				<?php /* translators: Tags list */ printf( __( 'Tagged %1$s', 'zerif-lite' ), $tags_list ); ?>
+					<?php printf( __( 'Tagged %1$s', 'zerif-lite' ), $tags_list ); ?>
 
 				</span>
 

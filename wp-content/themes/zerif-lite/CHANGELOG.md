@@ -1,23 +1,4 @@
 
-### 1.8.5.29 - 02/09/2017
-**Changes:** 
-- Fixed issue with images not appearing on the blog page
-
-### 1.8.5.28 - 25/08/2017
-**Changes:** 
-- Recommend Elementor plugin
-- Fixed issue with the preloader not working on the Frontpage
-
-### 1.8.5.27 - 25/08/2017
-**Changes:** 
-- Fixed some strings
-
-### 1.8.5.26 - 25/08/2017
-**Changes:** 
-- Integrated with Grunt and fixed all the errors
-- Fixed issues with main navigation menu not closing on mobile devices when an anchor is clicked
-- Fixed issue with options in Contact section not updating instantly
-
 ### 1.8.5.25 - 28/06/2017
 **Changes:** 
 - Fixed conflict with Elementor plugin font size option
