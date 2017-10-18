@@ -37,7 +37,7 @@ if ( ! class_exists( 'ThemeIsle_SDK_Logger' ) ) :
 		/**
 		 * @var string $heading The heading of the modal
 		 */
-		private $heading = 'Do you enjoy {product}? Become a contributor by opting in to our anonymous data tracking. We guarantee no sensitive data is collected.';
+		private $heading = 'Do you enjoy <b>{product}</b>? Become a contributor by opting in to our anonymous data tracking. We guarantee no sensitive data is collected.';
 
 		/**
 		 * @var string $button_submit The text of the submit button
@@ -110,18 +110,25 @@ if ( ! class_exists( 'ThemeIsle_SDK_Logger' ) ) :
 		}
 
 		/**
-		 * Shows the notification
+		 * Either we should show the notification or not.
+		 *
+		 * @return bool Valida notification.
 		 */
-		function show_notification() {
+		function can_notify() {
 			$show    = $this->product->is_logger_active();
 			$checked = get_option( $this->product->logger_option, '' );
 			if ( ! $show && $checked == '' ) {
-				add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-
 				return true;
 			}
 
 			return false;
+		}
+
+		/**
+		 * Shows the notification
+		 */
+		function show_notification() {
+			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 		}
 
 		/**
