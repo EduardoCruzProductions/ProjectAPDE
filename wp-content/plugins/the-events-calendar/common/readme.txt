@@ -2,6 +2,76 @@
 
 == Changelog ==
 
+= [4.7.12] 2018-05-09 =
+
+* Fix - Updated datatables.js to its most recent version to prevent conflicts [102465]
+* Tweak - Added the `Tribe__Process__Queue` class to handle background processing operations
+* Tweak - Changed 'forums' to 'help desk' throughout the content in the "Help" tab [104561]
+* Language - 3 new strings added, 84 updated, 3 fuzzied, and 3 obsoleted
+
+= [4.7.11] 2018-04-18 =
+
+* Fix - Restore "type" attribute to some inline `<script>` tags to ensure proper character encoding in Customizer-generated CSS [103167]
+* Tweak - Allow to register the same ID of a post if has multiple types for JSON-LD `<script>` tag [94989]
+* Tweak - Added the `a5hleyrich/wp-background-processing` package and the asynchronous process handling base [102323]
+* Tweak - Added the `Tribe__Process__Post_Thumbnail_Setter` class to handle post thumbnail download and creation in an asynchronous manner [102323]
+* Tweak - Deprecated the `Tribe__Main::doing_ajax()` method and moved it to the `Tribe__Context::doing_ajax()` method [102323]
+* Tweak - Modified the `select2` implementation to work with the `maximumSelectionSize` argument via data attribute. [103577]
+* Tweak - Add new filters: `tribe_countries` and `tribe_us_states` to allow easier extensibility on the names used for each country [79880]
+* Fix - Updated Timezones::abbr() with additional support for timezone strings not covered by PHP date format "T" [102705]
+
+= [4.7.10] 2018-03-28 =
+
+* Tweak - Adjusted app shop text in relation to Modern Tribe's ticketing solutions [101655]
+* Tweak - Added wrapper function around use of `tribe_events_get_the_excerpt` for safety [95034]
+
+= [4.7.9] 2018-03-12 =
+
+* Tweak - Added the a `tribe_currency_cost` filtering for Currency control for Prices and Costs
+
+= [4.7.8] 2018-03-06 =
+
+* Feature - Added new `tribe_get_global_query_object()` template tag for accessing the $wp_query global without triggering errors if other software has directly manipulated the global [100199]
+* Fix - Remove unnecessary timezone-abbreviation caching approach to improve accuracy of timezone abbreviations and better reflect DST changes [97344]
+* Fix - Make sure JSON strings are always a single line of text [99089]
+
+= [4.7.7.1] 2018-02-16 =
+
+* Fix - Rollback changes introduced in version 4.7.7 to allow month view to render correctly.
+
+= [4.7.7] 2018-02-14 =
+
+* Fix - Fixed the behavior of the `tribe_format_currency` function not to overwrite explicit parameters [96777]
+* Fix - Modified timezone handling in relation to events, in order to avoid DST changes upon conversion to UTC [69784]
+* Tweak - Improved the performance of dropdown and recurrent events by using caching on objects (our thanks to Gilles in the forums for flagging this problem) [81993]
+* Tweak - Reduced the risk of conflicts when lodash and underscore are used on the same site [92205]
+* Tweak - Added the `tribe_transient_notice` and `tribe_transient_notice_remove` functions to easily create and remove fire-and-forget admin notices
+* Language - 0 new strings added, 0 updated, 1 fuzzied, and 0 obsoleted
+
+= [4.7.6] 2018-01-23 =
+
+* Fix - Make sure to apply `$settings` to each section with the initial values in the customizer [96821]
+* Tweak - Include permalink structure into the report for support [68687]
+* Tweak - Added `not_empty()` validation method to the `Tribe__Validate` class for more options while validating date formats [94725]
+* Tweak - Update label on report for support to avoid confusions [68687]
+* Tweak - Deprecated the unused $timezone parameter in the `tribe_get_start_date()` and `tribe_get_end_date()` template tags [73400]
+
+= [4.7.5] 2018-01-10 =
+
+* Fix - Added safety check to avoid errors surrounding the use of count() (our thanks to daftdog for highlighting this issue) [95527]
+* Fix - Improved file logger to gracefully handle further file system restrictions (our thanks to Richard Palmer for highlighting further issues here) [96747]
+
+= [4.7.4] 2017-12-18 =
+
+* Fix - Fixed Event Cost field causing an error if it did not contain any numeric characters [95400]
+* Fix - Fixed the color of the license key validation messages [91890]
+* Fix - Added a safety check to avoid errors in the theme customizer when the search parameter is empty (props @afragen)
+* Language - 1 new strings added, 5 updated, 1 fuzzied, and 0 obsoleted
+
+= [4.7.3] 2017-12-07 =
+
+* Tweak - Tweaked Tribe Datepicker to prevent conflicts with third-party styles [94161]
+
 = [4.7.2] 2017-11-21 =
 
 * Feature - Added Template class which adds a few layers of filtering to any template file included

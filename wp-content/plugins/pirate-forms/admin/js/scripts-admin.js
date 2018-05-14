@@ -1,5 +1,6 @@
 /* global cwp_top_ajaxload */
 /* global console */
+/* global tinyMCE */
 
 jQuery(document).ready(function() {
     initAll();
@@ -17,6 +18,7 @@ function initAll(){
 
     jQuery('.pirate-forms-save-button').click(function (e) {
         e.preventDefault();
+        tinyMCE.triggerSave();
         cwpTopUpdateForm();
         return false;
     });
@@ -122,5 +124,41 @@ function initAll(){
             span.parent().find('input[type="text"]').attr('type', 'password');
             span.removeClass('dashicons-hidden').addClass('dashicons-visibility');
         }
+    });
+
+	// tootips in settings.
+	jQuery(document).tooltip({
+		items: '.dashicons-editor-help',
+		hide: 200,
+		position: {within: '#pirate-forms-main'},
+
+		content: function () {
+			return jQuery(this).find('div').html();
+		},
+		show: null,
+		close: function (event, ui) {
+			ui.tooltip.hover(
+				function () {
+					jQuery(this).stop(true).fadeTo(400, 1);
+				},
+				function () {
+					jQuery(this).fadeOut('400', function () {
+						jQuery(this).remove();
+					});
+				});
+		}
+	});
+
+    jQuery('.pirateforms-notice-gdpr.is-dismissible').on('click', '.notice-dismiss', function(){
+        jQuery.ajax({
+            url         : cwp_top_ajaxload.ajaxurl,
+            type        : 'POST',
+            data        : {
+                id          : jQuery(this).parent().attr('data-dismissible'),
+                _action     : 'dismiss-notice',
+                security    : cwp_top_ajaxload.nonce,
+                action      : cwp_top_ajaxload.slug
+            }
+       });
     });
 }

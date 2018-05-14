@@ -46,6 +46,15 @@ abstract class Orbit_Fox_Module_Abstract {
 	public $description;
 
 	/**
+	 * Holds the default setting activation state of the module.
+	 *
+	 * @since   2.1.0
+	 * @access  protected
+	 * @var     boolean $active_default The default active state of the module.
+	 */
+	protected $active_default = false;
+
+	/**
 	 * Stores an array of notices
 	 *
 	 * @since   1.0.0
@@ -53,6 +62,15 @@ abstract class Orbit_Fox_Module_Abstract {
 	 * @var     array $notices Stores an array of notices to be displayed on the admin panel.
 	 */
 	protected $notices = array();
+
+	/**
+	 * Confirm intent array. It should contain a title and a subtitle for the confirm intent modal.
+	 *
+	 * @since   2.4.1
+	 * @access  public
+	 * @var     array $confirm_intent Stores an array of the modal with 'title' and 'subtitle' keys.
+	 */
+	public $confirm_intent = array();
 
 	/**
 	 * Flags if module should autoload.
@@ -109,6 +127,17 @@ abstract class Orbit_Fox_Module_Abstract {
 	}
 
 	/**
+	 * Getter method for slug.
+	 *
+	 * @since   2.3.3
+	 * @access  public
+	 * @return mixed|string
+	 */
+	public function get_slug() {
+		return $this->slug;
+	}
+
+	/**
 	 * Method to return path to child class in a Reflective Way.
 	 *
 	 * @codeCoverageIgnore
@@ -151,15 +180,19 @@ abstract class Orbit_Fox_Module_Abstract {
 
 	/**
 	 * Registers the loader.
+	 * And setup activate and deactivate hooks. Added in v2.3.3.
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @since   1.0.0
+	 * @updated 2.3.3
 	 * @access  public
 	 * @param Orbit_Fox_Loader $loader The loader class used to register action hooks and filters.
 	 */
 	public function register_loader( Orbit_Fox_Loader $loader ) {
 		$this->loader = $loader;
+		$this->loader->add_action( $this->get_slug() . '_activate', $this, 'activate' );
+		$this->loader->add_action( $this->get_slug() . '_deactivate', $this, 'deactivate' );
 	}
 
 	/**
@@ -278,7 +311,7 @@ abstract class Orbit_Fox_Module_Abstract {
 		if ( $this->auto == true ) {
 			return true;
 		}
-		return $this->model->get_is_module_active( $this->slug );
+		return $this->model->get_is_module_active( $this->slug, $this->active_default );
 	}
 
 	/**
@@ -348,18 +381,39 @@ abstract class Orbit_Fox_Module_Abstract {
 	}
 
 	/**
+	 * Stub for activate hook.
+	 *
+	 * @since   2.3.3
+	 * @access  public
+	 */
+	public function activate() {}
+
+	/**
+	 * Stub for deactivate hook.
+	 *
+	 * @since   2.3.3
+	 * @access  public
+	 */
+	public function deactivate() {}
+
+	/**
 	 * Method to update a set of options.
+	 * Added in v2.3.3 actions for before and after options save.
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @since   1.0.0
+	 * @updated 2.3.3
 	 * @access  public
 	 * @param   array $options An associative array of options to be
 	 *                         updated. Eg. ( 'key' => 'new_value' ).
 	 * @return mixed
 	 */
 	final public function set_options( $options ) {
-		return $this->model->set_module_options( $this->slug, $options );
+		do_action( $this->get_slug() . '_before_options_save', $options );
+		$result = $this->model->set_module_options( $this->slug, $options );
+		do_action( $this->get_slug() . '_after_options_save' );
+		return $result;
 	}
 
 	/**
@@ -449,6 +503,7 @@ abstract class Orbit_Fox_Module_Abstract {
 		$sanitized = str_replace( ' ', '-', strtolower( $this->name ) );
 
 		$module_dir = $this->slug;
+
 		if ( ! empty( $enqueue ) ) {
 			if ( isset( $enqueue['js'] ) && ! empty( $enqueue['js'] ) ) {
 				$order = 0;
@@ -490,9 +545,9 @@ abstract class Orbit_Fox_Module_Abstract {
 						);
 					}
 					$order++;
-				}
-			}
-		}
+				}// End foreach().
+			}// End if().
+		}// End if().
 	}
 
 	/**

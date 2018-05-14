@@ -27,7 +27,7 @@ define('DB_NAME', 'apde_db');
 define('DB_USER', 'root');
 
 /** Senha do banco de dados MySQL */
-define('DB_PASSWORD', '12345');
+define('DB_PASSWORD', 'root');
 
 /** Nome do host do MySQL */
 define('DB_HOST', 'localhost');

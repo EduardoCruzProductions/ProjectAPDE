@@ -157,6 +157,10 @@ class WC_CLI_REST_Command {
 			$body = self::limit_item_to_fields( $body, $assoc_args['fields'] );
 		}
 
+		if ( empty( $assoc_args['format'] ) ) {
+			$assoc_args['format'] = 'table';
+		}
+
 		if ( 'headers' === $assoc_args['format'] ) {
 			echo json_encode( $headers );
 		} elseif ( 'body' === $assoc_args['format'] ) {
@@ -188,6 +192,10 @@ class WC_CLI_REST_Command {
 			$method = 'GET';
 		}
 
+		if ( ! isset( $assoc_args['per_page'] ) || empty( $assoc_args['per_page'] ) ) {
+			$assoc_args['per_page'] = '100';
+		}
+
 		list( $status, $body, $headers ) = $this->do_request( $method, $this->get_filled_route( $args ), $assoc_args );
 		if ( ! empty( $assoc_args['format'] ) && 'ids' === $assoc_args['format'] ) {
 			$items = array_column( $body, 'id' );
@@ -199,6 +207,10 @@ class WC_CLI_REST_Command {
 			foreach ( $items as $key => $item ) {
 				$items[ $key ] = self::limit_item_to_fields( $item, $assoc_args['fields'] );
 			}
+		}
+
+		if ( empty( $assoc_args['format'] ) ) {
+			$assoc_args['format'] = 'table';
 		}
 
 		if ( ! empty( $assoc_args['format'] ) && 'count' === $assoc_args['format'] ) {

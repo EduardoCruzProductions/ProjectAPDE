@@ -194,8 +194,19 @@ function wc_get_attribute_taxonomy_names() {
 function wc_get_attribute_types() {
 	return (array) apply_filters( 'product_attributes_type_selector', array(
 		'select' => __( 'Select', 'woocommerce' ),
-		'text'   => __( 'Text', 'woocommerce' ),
 	) );
+}
+
+/**
+ * Check if there are custom attribute types.
+ *
+ * @since  3.3.2
+ * @return bool True if there are custom types, otherwise false.
+ */
+function wc_has_custom_attribute_types() {
+	$types = wc_get_attribute_types();
+
+	return 1 < count( $types ) || ! array_key_exists( 'select', $types );
 }
 
 /**
@@ -208,7 +219,7 @@ function wc_get_attribute_types() {
 function wc_get_attribute_type_label( $type ) {
 	$types = wc_get_attribute_types();
 
-	return isset( $types[ $type ] ) ? $types[ $type ] : ucfirst( $type );
+	return isset( $types[ $type ] ) ? $types[ $type ] : __( 'Select', 'woocommerce' );
 }
 
 /**
@@ -423,7 +434,8 @@ function wc_create_attribute( $args ) {
 		return new WP_Error( 'invalid_product_attribute_slug_too_long', sprintf( __( 'Slug "%s" is too long (28 characters max). Shorten it, please.', 'woocommerce' ), $slug ), array( 'status' => 400 ) );
 	} elseif ( wc_check_if_attribute_name_is_reserved( $slug ) ) {
 		return new WP_Error( 'invalid_product_attribute_slug_reserved_name', sprintf( __( 'Slug "%s" is not allowed because it is a reserved term. Change it, please.', 'woocommerce' ), $slug ), array( 'status' => 400 ) );
-	} elseif ( ( 0 === $id && taxonomy_exists( wc_attribute_taxonomy_name( $slug ) ) ) || ( isset( $args['old_slug'] ) && $args['old_slug'] !== $args['slug'] && taxonomy_exists( wc_attribute_taxonomy_name( $slug ) ) ) ) {
+	} elseif ( ( 0 === $id && taxonomy_exists( wc_attribute_taxonomy_name( $slug ) ) ) || ( isset( $args['old_slug'] ) && $args['old_slug'] !== $slug && taxonomy_exists( wc_attribute_taxonomy_name( $slug ) ) ) ) {
+		/* translators: %s: attribute slug */
 		return new WP_Error( 'invalid_product_attribute_slug_already_exists', sprintf( __( 'Slug "%s" is already in use. Change it, please.', 'woocommerce' ), $slug ), array( 'status' => 400 ) );
 	}
 

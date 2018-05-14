@@ -35,17 +35,16 @@ if ( ! empty( $social_links_array ) ) { ?>
 			?>
 			<li class="<?php echo esc_attr( $class ); ?>">
 				<a class = "<?php echo esc_attr( $network_data['icon'] ); ?>"
-					<?php echo ( isset( $network_data['target'] ) && $network_data['target'] != '0' ) ? 'target="_blank"' : ''; ?>
-				   href="<?php echo esc_url( $network_data['link'] ); ?>">
+					<?php echo ( isset( $network_data['target'] ) && $network_data['target'] != '0' ) ? 'target="_blank"' : ''; ?> href="<?php echo esc_url( $network_data['link'] ); ?>">
 					<i class="socicon-<?php echo esc_attr( $network_data['icon'] ); ?>"></i>
 					<?php
 					if ( $show_name ) {
 						echo '<span>' . esc_html( $network_data['nicename'] ) . '</span>';
 					}
-?>
+					?>
 				</a>
 			</li>
 		<?php } ?>
 	</ul>
-<?php
+	<?php
 }// End if().

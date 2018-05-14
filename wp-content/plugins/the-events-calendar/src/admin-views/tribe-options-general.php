@@ -25,6 +25,12 @@ $general_tab_fields = Tribe__Main::array_insert_after_key(
 	)
 );
 
+$posts_per_page_tooltip = esc_html__( 'The number of events per page on the List View. Does not affect other views.', 'the-events-calendar' );
+
+if ( class_exists( 'Tribe__Events__Pro__Main' ) ) {
+	$posts_per_page_tooltip = esc_html__( 'The number of events per page on the List, Photo, and Map Views. Does not affect other views.', 'the-events-calendar' );
+}
+
 $general_tab_fields = Tribe__Main::array_insert_before_key(
 	'debugEvents',
 	$general_tab_fields,
@@ -36,14 +42,15 @@ $general_tab_fields = Tribe__Main::array_insert_before_key(
 		'postsPerPage'                  => array(
 			'type'            => 'text',
 			'label'           => esc_html__( 'Number of events to show per page', 'the-events-calendar' ),
+			'tooltip'         => $posts_per_page_tooltip,
 			'size'            => 'small',
 			'default'         => get_option( 'posts_per_page' ),
 			'validation_type' => 'positive_int',
 		),
 		'liveFiltersUpdate'             => array(
 			'type'            => 'checkbox_bool',
-			'label'           => esc_html__( 'Use Javascript to control date filtering', 'the-events-calendar' ),
-			'tooltip'         => tribe_get_option( 'tribeDisableTribeBar', false ) == true ? esc_html__( 'This option is disabled when "Disable the Event Search Bar" is checked on the Display settings tab.', 'the-events-calendar' ) : esc_html__( 'Enable live ajax for datepicker on front end (User submit not required).', 'the-events-calendar' ),
+			'label'           => esc_html__( 'Enable live refresh', 'the-events-calendar' ),
+			'tooltip'         => tribe_get_option( 'tribeDisableTribeBar', false ) == true ? esc_html__( 'This option is disabled when "Disable the Event Search Bar" is checked on the Display settings tab.', 'the-events-calendar' ) : esc_html__( 'Instantly updates the calendar view when searching for or filtering events.', 'the-events-calendar' ),
 			'attributes'      => tribe_get_option( 'tribeDisableTribeBar', false ) == true ? array( 'disabled' => 'disabled' ) : null,
 			'default'         => true,
 			'validation_type' => 'boolean',
@@ -88,7 +95,7 @@ $general_tab_fields = Tribe__Main::array_insert_before_key(
 		),
 		'current-events-slug'           => array(
 			'type'        => 'html',
-			'html'        => '<p class="tribe-field-indent tribe-field-description description">' . esc_html__( 'The slug used for building the events URL.', 'the-events-calendar' ) . sprintf( esc_html__( 'Your current events URL is: %s', 'the-events-calendar' ), '<code><a href="' . esc_url( tribe_get_events_link() ) . '">' . urldecode( tribe_get_events_link() ) . '</a></code>' ) . '</p>',
+			'html'        => '<p class="tribe-field-indent tribe-field-description description">' . esc_html__( 'The slug used for building the events URL.', 'the-events-calendar' ) . ' ' . sprintf( esc_html__( 'Your current events URL is: %s', 'the-events-calendar' ), '<code><a href="' . esc_url( tribe_get_events_link() ) . '">' . urldecode( tribe_get_events_link() ) . '</a></code>' ) . '</p>',
 			'conditional' => ( '' != get_option( 'permalink_structure' ) ),
 		),
 		'ical-info'                     => array(
@@ -152,7 +159,40 @@ $general_tab_fields = Tribe__Main::array_insert_before_key(
 		'amalgamateDuplicates'          => array(
 			'type'        => 'html',
 			'html'        => '<fieldset class="tribe-field tribe-field-html"><legend>' . esc_html__( 'Duplicate Venues &amp; Organizers', 'the-events-calendar' ) . '</legend><div class="tribe-field-wrap">' . Tribe__Events__Amalgamator::migration_button( esc_html__( 'Merge Duplicates', 'the-events-calendar' ) ) . '<p class="tribe-field-indent description">' . esc_html__( 'You might find duplicate venues and organizers when updating The Events Calendar from a pre-3.0 version. Click this button to automatically merge identical venues and organizers.', 'the-events-calendar' ) . '</p></div></fieldset><div class="clear"></div>',
-			'conditional' => ( Tribe__Settings_Manager::get_option( 'organizer_venue_amalgamation', 0 ) < 1 ),
+		),
+		tribe( 'tec.event-cleaner' )->key_trash_events  => array(
+			'type'            => 'dropdown',
+			'label'           => esc_html__( 'Move to trash events older than', 'the-events-calendar' ),
+			'tooltip'         => esc_html__( 'This option allows you to automatically move past events to trash.', 'the-events-calendar' ),
+			'validation_type' => 'options',
+			'size'            => 'small',
+			'default'         => null,
+			'options'         => array(
+				null => esc_html__( 'Disabled', 'the-events-calendar' ),
+				3    => esc_html__( '3 months', 'the-events-calendar' ),
+				6    => esc_html__( '6 months', 'the-events-calendar' ),
+				9    => esc_html__( '9 months', 'the-events-calendar' ),
+				12   => esc_html__( '1 year', 'the-events-calendar' ),
+				24   => esc_html__( '2 years', 'the-events-calendar' ),
+				36   => esc_html__( '3 years', 'the-events-calendar' ),
+			),
+		),
+		tribe( 'tec.event-cleaner' )->key_delete_events => array(
+			'type'            => 'dropdown',
+			'label'           => esc_html__( 'Permanently delete events older than', 'the-events-calendar' ),
+			'tooltip'         => esc_html__( 'This option allows you to bulk delete past events. Be careful and backup your database before removing your events as there is no way to reverse the changes.', 'the-events-calendar' ),
+			'validation_type' => 'options',
+			'size'            => 'small',
+			'default'         => null,
+			'options'         => array(
+				null => esc_html__( 'Disabled', 'the-events-calendar' ),
+				3    => esc_html__( '3 months', 'the-events-calendar' ),
+				6    => esc_html__( '6 months', 'the-events-calendar' ),
+				9    => esc_html__( '9 months', 'the-events-calendar' ),
+				12   => esc_html__( '1 year', 'the-events-calendar' ),
+				24   => esc_html__( '2 years', 'the-events-calendar' ),
+				36   => esc_html__( '3 years', 'the-events-calendar' ),
+			),
 		),
 		'tribeEventsMiscellaneousTitle' => array(
 			'type' => 'html',

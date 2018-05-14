@@ -47,20 +47,28 @@ if ( ! function_exists( 'hestia_features' ) ) :
 		hestia_before_features_section_trigger();
 		?>
 		<section class="hestia-features <?php echo esc_attr( $wrapper_class ); ?>" id="features" data-sorder="hestia_features">
-			<?php hestia_before_features_section_content_trigger(); ?>
+			<?php
+            hestia_before_features_section_content_trigger();
+			if ( $is_shortcode === false && function_exists('hestia_display_customizer_shortcut') ) {
+				hestia_display_customizer_shortcut( 'hestia_features_hide', true );
+			}
+			?>
 			<div class="<?php echo esc_attr( $container_class ); ?>">
 				<?php
 				hestia_top_features_section_content_trigger();
 				if ( $is_shortcode === false ) {
 				?>
 					<div class="row">
-						<div class="col-md-8 col-md-offset-2">
+						<div class="col-md-8 col-md-offset-2 hestia-features-title-area">
 							<?php
+							if ( function_exists('hestia_display_customizer_shortcut') && ! empty( $hestia_features_title ) && ! empty( $hestia_features_subtitle ) ) {
+								hestia_display_customizer_shortcut( 'hestia_features_title' );
+							}
 							if ( ! empty( $hestia_features_title ) || is_customize_preview() ) {
-								echo '<h2 class="hestia-title">' . esc_html( $hestia_features_title ) . '</h2>';
+								echo '<h2 class="hestia-title">' . wp_kses_post( $hestia_features_title ) . '</h2>';
 							}
 							if ( ! empty( $hestia_features_subtitle ) || is_customize_preview() ) {
-								echo '<h5 class="description">' . esc_html( $hestia_features_subtitle ) . '</h5>';
+								echo '<h5 class="description">' . wp_kses_post( $hestia_features_subtitle ) . '</h5>';
 							}
 							?>
 						</div>
@@ -97,7 +105,6 @@ function hestia_features_content( $hestia_features_content, $is_callback = false
 
 		$hestia_features_content = json_decode( $hestia_features_content );
 		if ( ! empty( $hestia_features_content ) ) {
-			$i = 1;
 			echo '<div class="row">';
 			foreach ( $hestia_features_content as $features_item ) :
 				$icon = ! empty( $features_item->icon_value ) ? apply_filters( 'hestia_translate_single_string', $features_item->icon_value, 'Features section' ) : '';
@@ -108,7 +115,7 @@ function hestia_features_content( $hestia_features_content, $is_callback = false
 				$color = ! empty( $features_item->color ) ? $features_item->color : '';
 				$choice = ! empty( $features_item->choice ) ? $features_item->choice : 'customizer_repeater_icon';
 				?>
-				<div class="<?php echo apply_filters( 'hestia_features_per_row_class','col-md-4' ); ?> feature-box">
+				<div class="col-xs-12 <?php echo apply_filters( 'hestia_features_per_row_class','col-md-4' ); ?> feature-box">
 					<div class="hestia-info">
 						<?php
 						if ( ! empty( $link ) ) {
@@ -153,12 +160,6 @@ function hestia_features_content( $hestia_features_content, $is_callback = false
 					</div>
 				</div>
 				<?php
-				if ( $i % apply_filters( 'hestia_features_per_row_no', 3 ) == 0 ) {
-					echo '</div><!-- /.row -->';
-					echo '<div class="row">';
-				}
-				$i++;
-
 			endforeach;
 			echo '</div>';
 		}// End if().

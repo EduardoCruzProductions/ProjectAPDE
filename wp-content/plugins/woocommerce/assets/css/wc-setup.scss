@@ -13,6 +13,9 @@ body {
 		max-width: 30%;
 	}
 }
+.wc-setup {
+	text-align: center;
+}
 .wc-setup-content {
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
 	padding: 2em;
@@ -20,6 +23,7 @@ body {
 	background: #fff;
 	overflow: hidden;
 	zoom: 1;
+	text-align: left;
 
 	h1, h2, h3, table {
 		margin: 0 0 20px;
@@ -282,8 +286,6 @@ body {
 				padding: 0 10px 0 0;
 				top: 1px;
 				position: relative;
-				-webkit-font-smoothing: antialiased;
-				-moz-osx-font-smoothing: grayscale;
 				text-decoration: none !important;
 				vertical-align: top;
 			}
@@ -299,7 +301,6 @@ body {
 		}
 	}
 	.woocommerce-newsletter,
-	.woocommerce-tracker,
 	.updated {
 		padding: 24px 24px 0;
 		margin: 0 0 24px;
@@ -314,9 +315,74 @@ body {
 			margin: 0 0 24px;
 		}
 	}
-	.woocommerce-tracker + .woocommerce-newsletter {
-		margin-top: -24px;
-		border-top: 2px dashed #ddd;
+	.woocommerce-tracker {
+		margin: 24px 0;
+		border: 1px solid #eee;
+		padding: 20px;
+		border-radius: 4px;
+		overflow: hidden;
+
+		p {
+			font-size: 14px;
+			line-height: 1.5em;
+		}
+		.checkbox {
+			line-height: 24px;
+			font-weight: 500;
+			font-size: 1em;
+			margin-top: 0;
+			margin-bottom: 20px;
+
+			input[type="checkbox"] {
+				opacity: 0;
+				position: absolute;
+				left: -9999px;
+			}
+			label {
+				position: relative;
+				display: inline-block;
+				padding-left: 28px;
+				&:before,
+				&:after {
+					position: absolute;
+					content: "";
+					display: inline-block;
+				}
+				&:before {
+					height: 16px;
+					width: 16px;
+					left: 0px;
+					top: 3px;
+					border: 1px solid #aaa;
+					background-color: #fff;
+					border-radius: 3px;
+				}
+				&:after {
+					height: 5px;
+					width: 9px;
+					border-left: 2px solid;
+					border-bottom: 2px solid;
+					transform: rotate(-45deg);
+					left: 4px;
+					top: 7px;
+					color: #fff;
+				}
+			}
+			input[type="checkbox"] + label::after {
+				content: none;
+			}
+			input[type="checkbox"]:checked + label::after {
+				content: "";
+			}
+			input[type="checkbox"]:focus + label::before {
+				outline: rgb(59, 153, 252) auto 5px;
+			}
+			input[type="checkbox"]:checked + label::before {
+				background: #935687;
+				border-color: #935687;
+				outline: none;
+			}
+		}
 	}
 }
 .wc-setup-steps {
@@ -328,7 +394,7 @@ body {
 	width:100%;
 	display: inline-flex;
 	li {
-		width: 20%;
+		width: 100%;
 		float: left;
 		padding: 0 0 0.8em;
 		margin: 0;
@@ -405,8 +471,8 @@ body {
 .wc-return-to-dashboard {
 	font-size: 0.85em;
 	color: #b5b5b5;
-	margin: 1.18em 0;
-	display: block;
+	margin: 1.18em auto;
+	display: inline-block;
 	text-align: center;
 }
 
@@ -473,6 +539,7 @@ body {
 	margin: 0 0 1em;
 	list-style: none outside;
 	border-radius: 4px;
+	overflow: hidden; // Make sure dark background doesn't cover curved border
 
 	p {
 		margin: 0 0 1em 0;
@@ -482,13 +549,15 @@ body {
 	}
 }
 
-.wc-wizard-service-item, .wc-wizard-services-list-toggle {
+.wc-wizard-service-item,
+.wc-wizard-services-list-toggle {
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
-	padding: 2em 0;
+	padding: 0;
 	border-bottom: 1px solid #eee;
 	color: #666;
+	align-items: center;
 
 	&:last-child {
 		border-bottom: 0;
@@ -500,26 +569,60 @@ body {
 
 	.wc-wizard-service-name {
 		flex-basis: 0;
-		min-width: 175px;
+		min-width: 160px;
 		text-align: center;
 		font-weight: bold;
+		padding: 2em 0;
+		align-self: stretch;
+		display: flex;
+		align-items: baseline;
+
+		.wc-wizard-payment-gateway-form & {
+			justify-content: center;
+		}
 
 		img {
 			max-width: 75px;
-			margin-top: 0.5em;
+		}
+	}
+
+	&.stripe-logo .wc-wizard-service-name img {
+		padding: 8px 0;
+	}
+
+	&.paypal-logo .wc-wizard-service-name img {
+		max-width: 87px;
+		padding: 2px 0;
+	}
+
+	&.klarna-logo .wc-wizard-service-name {
+		background: #000000;
+
+		img {
+			max-width: 87px;
+			padding: 12px 0;
+		}
+	}
+
+	&.square-logo .wc-wizard-service-name {
+		background: #000000;
+
+		img {
+			max-width: 95px;
+			padding: 12px 0;
 		}
 	}
 
 	.wc-wizard-service-description {
 		flex-grow: 1;
-		padding: 0 1em;
+		padding: 20px;
 
 		p {
-			margin-bottom: 0;
+			margin-bottom: 1em;
 		}
 
-		.wc-wizard-service-settings {
-			margin-top: 1em;
+		p:last-child {
+			margin-bottom: 0;
 		}
 
 		.wc-wizard-service-settings-description {
@@ -534,6 +637,10 @@ body {
 		min-width: 75px;
 		text-align: center;
 		cursor: pointer;
+		padding: 2em 0;
+		position: relative;
+		max-height: 1.5em;
+		align-self: flex-start;
 	}
 
 	.wc-wizard-service-toggle {
@@ -598,29 +705,31 @@ body {
 	}
 }
 
-// Toggle display a list of services
-.wc-wizard-service-enable input {
-	visibility: hidden;
-	position: relative;
-
-	&:before {
-		content: "\f347"; // down chevron
+// Toggle display a list of services.
+.wc-wizard-services-list-toggle {
+	.wc-wizard-service-enable::before {
+		content: "\f343"; // up chevron
 		font-family: "dashicons";
 		visibility: initial;
 		color: #666;
 		font-size: 25px;
-		margin-left: -5px; // center it
-		top: -6px;
+		margin-top: -7px;
+		margin-left: -5px;
 		position: absolute;
+		visibility: visible;
+	}
+	&.closed {
+		.wc-wizard-service-enable::before {
+			content: "\f347"; // down chevron
+		}
+	}
+	.wc-wizard-service-enable input {
+		visibility: hidden;
+		position: relative;
+		cursor: pointer;
 	}
 }
 
-.wc-wizard-service-enable input:checked {
-	&:before {
-		content: "\f343"; // up chevron
-		top: -7px;
-	}
-}
 .wc-wizard-services.manual .wc-wizard-service-item {
 	display: none;
 }
@@ -631,11 +740,15 @@ body {
 	.wc-wizard-service-name {
 		font-weight: normal;
 		text-align: left;
+		align-items: center;
+		max-height: 5em;
+		padding: 0;
 	}
 
 	// List header
 	.wc-wizard-service-item {
 		padding-left: 2em;
+		padding-top: 0.67em;
 
 		&:first-child {
 			border-bottom: 0;
@@ -671,7 +784,10 @@ body {
 		display: flex;
 		flex-direction: column;
 		color: #a6a6a6;
+	}
+	.wc-wizard-service-item:not(:first-child) .wc-wizard-service-description {
 		font-size: 0.92em;
+		padding-bottom: 10px;
 	}
 
 	.shipping-method-setting {
@@ -796,7 +912,7 @@ h3.jetpack-reasons {
 	font-size: 13px;
 	font-weight: 500;
 	margin-bottom: 0.5em;
-	margin-top: 1em;
+	margin-top: 0.85em;
 	display: inline-block;
 }
 
@@ -825,7 +941,7 @@ h3.jetpack-reasons {
 }
 
 .store-address-container {
-	margin-bottom: 24px; // match margin-bottom on top paragraph
+	margin-top: 4px;
 
 	.city-and-postcode {
 		display: flex;
@@ -839,6 +955,16 @@ h3.jetpack-reasons {
 			}
 		}
 	}
+}
+.store-currency-container {
+	margin-top: 10px;
+}
+.product-type-container {
+	margin-top: 14px;
+	margin-bottom: 1px;
+}
+#woocommerce_sell_in_person {
+	margin-left: 0;
 }
 
 .wc-wizard-service-settings {
@@ -979,35 +1105,29 @@ p.jetpack-terms {
 	}
 }
 
-.allow-tracking {
-	color: #9f9f9f;
-	margin-top: 2em;
-	text-align: center;
-	font-size: 0.9em;
-}
-
-.wc-wizard-service-setting-stripe_create_account {
+.wc-wizard-service-setting-stripe_create_account, .wc-wizard-service-setting-ppec_paypal_reroute_requests {
 	display: flex;
-	align-items: flex-end;
+	align-items: flex-start;
 	margin-top: 0.75em;
 
 	.payment-checkbox-input {
 		order: 1;
+		margin-top: 5px;
 		margin-left: 0;
 		margin-right: 0;
 		width: 1.5em;
 	}
 
-	.stripe_create_account {
+	.stripe_create_account, .ppec_paypal_reroute_requests {
 		order: 2;
 		margin-left: 0.3em;
 	}
 }
 
-.wc-wizard-service-setting-stripe_email {
+.wc-wizard-service-setting-stripe_email, .wc-wizard-service-setting-ppec_paypal_email {
 	margin-top: 0.75em;
 
-	label.stripe_email {
+	label.stripe_email, label.ppec_paypal_email {
 		position: absolute;
 		margin: -1px;
 		padding: 0;

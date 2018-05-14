@@ -54,20 +54,28 @@ if ( ! function_exists( 'hestia_team' ) ) :
 		hestia_before_team_section_trigger();
 		?>
 		<section class="hestia-team <?php echo esc_attr( $wrapper_class ); ?>" id="team" data-sorder="hestia_team">
-			<?php hestia_before_team_section_content_trigger(); ?>
+			<?php
+			hestia_before_team_section_content_trigger();
+			if ( function_exists('hestia_display_customizer_shortcut') && $is_shortcode === false ) {
+				hestia_display_customizer_shortcut( 'hestia_team_hide', true );
+			}
+			?>
 			<div class="<?php echo esc_attr( $container_class ); ?>">
 				<?php
 				hestia_top_team_section_content_trigger();
 				if ( $is_shortcode === false ) {
 				?>
 					<div class="row">
-						<div class="col-md-8 col-md-offset-2 text-center">
+						<div class="col-md-8 col-md-offset-2 text-center hestia-team-title-area">
 							<?php
+                            if( function_exists('hestia_display_customizer_shortcut') ) {
+	                            hestia_display_customizer_shortcut( 'hestia_team_title' );
+                            }
 							if ( ! empty( $hestia_team_title ) || is_customize_preview() ) {
-								echo '<h2 class="hestia-title">' . esc_html( $hestia_team_title ) . '</h2>';
+								echo '<h2 class="hestia-title">' . wp_kses_post( $hestia_team_title ) . '</h2>';
 							}
 							if ( ! empty( $hestia_team_subtitle ) || is_customize_preview() ) {
-								echo '<h5 class="description">' . esc_html( $hestia_team_subtitle ) . '</h5>';
+								echo '<h5 class="description">' . wp_kses_post( $hestia_team_subtitle ) . '</h5>';
 							}
 							?>
 						</div>
@@ -106,8 +114,6 @@ function hestia_team_content( $hestia_team_content, $is_callback = false ) {
 			$hestia_team_content = json_decode( $hestia_team_content );
 
 			if ( ! empty( $hestia_team_content ) ) {
-
-				$i = 1;
 				echo '<div class="row">';
 				foreach ( $hestia_team_content as $team_item ) :
 					$image = ! empty( $team_item->image_url ) ? apply_filters( 'hestia_translate_single_string', $team_item->image_url, 'Team section' ) : '';
@@ -120,8 +126,23 @@ function hestia_team_content( $hestia_team_content, $is_callback = false ) {
 						<div class="card card-profile card-plain">
 							<div class="col-md-5">
 								<div class="card-image">
-									<?php if ( ! empty( $image ) ) : ?>
-										<?php
+									<?php
+                                    if ( ! empty( $image ) ) :
+                                        /**
+                                         * Alternative text for the Team box image
+                                         * It first checks for the Alt Text option of the attachment
+                                         * If that field is empty, uses the Title of the Testimonial box as alt text
+                                         */
+                                        $alt_image = '';
+                                        $image_id  = function_exists( 'attachment_url_to_postid' ) ? attachment_url_to_postid( preg_replace( '/-\d{1,4}x\d{1,4}/i', '', $image ) ) : '';
+                                        if ( ! empty( $image_id ) && $image_id !== 0 ) {
+                                            $alt_image = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+                                        }
+                                        if ( empty( $alt_image ) ) {
+                                            if ( ! empty( $title ) ) {
+                                                $alt_image = $title;
+                                            }
+                                        }
 										if ( ! empty( $link ) ) :
 											$link_html = '<a href="' . esc_url( $link ) . '"';
 											if ( function_exists( 'hestia_is_external_url' ) ) {
@@ -130,21 +151,33 @@ function hestia_team_content( $hestia_team_content, $is_callback = false ) {
 											$link_html .= '>';
 											echo wp_kses_post( $link_html );
 										endif;
-										?>
-										<img class="img"
-											 src="<?php echo esc_url( $image ); ?>"
-											<?php
-											if ( ! empty( $title ) ) :
-												?>
-												alt="<?php echo esc_attr( $title ); ?>" title="<?php echo esc_attr( $title ); ?>" <?php endif; ?> />
-										<?php if ( ! empty( $link ) ) : ?>
-											</a>
-										<?php endif; ?>
+										echo '<img class="img" src="' . esc_url( $image ) . '" ';
+                                        if ( ! empty( $alt_image ) ) {
+                                            echo ' alt="' . esc_attr( $alt_image ) . '" ';
+                                        }
+                                        if ( ! empty( $title ) ) {
+                                            echo ' title="' . esc_attr( $title ) . '" ';
+                                        }
+                                        echo '/>';
+                                        if ( ! empty( $link ) ) {
+                                            echo '</a>';
+                                        }
+                                        ?>
 									<?php endif; ?>
 								</div>
 							</div>
 							<div class="col-md-7">
 								<div class="content">
+                                    <?php
+                                    if ( ! empty( $link ) ) :
+                                        $link_html = '<a href="' . esc_url( $link ) . '"';
+                                        if ( function_exists( 'hestia_is_external_url' ) ) {
+                                            $link_html .= hestia_is_external_url( $link );
+                                        }
+                                        $link_html .= '>';
+                                        echo wp_kses_post( $link_html );
+                                    endif;
+                                    ?>
 									<?php if ( ! empty( $title ) ) : ?>
 										<h4 class="card-title"><?php echo esc_html( $title ); ?></h4>
 									<?php endif; ?>
@@ -154,6 +187,11 @@ function hestia_team_content( $hestia_team_content, $is_callback = false ) {
 									<?php if ( ! empty( $text ) ) : ?>
 										<p class="card-description"><?php echo wp_kses_post( html_entity_decode( $text ) ); ?></p>
 									<?php endif; ?>
+                                    <?php
+                                    if ( ! empty( $link ) ) {
+                                        echo '</a>';
+                                    }
+                                    ?>
 									<?php
 									if ( ! empty( $team_item->social_repeater ) ) :
 										$icons = html_entity_decode( $team_item->social_repeater );
@@ -162,17 +200,20 @@ function hestia_team_content( $hestia_team_content, $is_callback = false ) {
 											?>
 											<div class="footer">
 												<?php
-												foreach ( $icons_decoded as $value ) :
+												foreach ( $icons_decoded as $value ) {
 													$social_icon = ! empty( $value['icon'] ) ? apply_filters( 'hestia_translate_single_string', $value['icon'], 'Team section' ) : '';
 													$social_link = ! empty( $value['link'] ) ? apply_filters( 'hestia_translate_single_string', $value['link'], 'Team section' ) : '';
-													?>
-													<?php if ( ! empty( $social_icon ) ) : ?>
-													<a href="<?php echo esc_url( $social_link ); ?>"
-													   class="btn btn-just-icon btn-simple">
-														<i class="fa <?php echo esc_attr( $social_icon ); ?>"></i>
-													</a>
-												<?php endif; ?>
-												<?php endforeach; ?>
+
+													if ( ! empty( $social_icon ) ) {
+														$link = '<a href="' . esc_url( $social_link ) . '"';
+														if ( function_exists( 'hestia_is_external_url' ) ) {
+															$link .= hestia_is_external_url( $social_link );
+														}
+														$link .= ' class="btn btn-just-icon btn-simple"><i class="fa ' . esc_attr( $social_icon ) . '"></i></a>';
+														echo $link;
+													}
+												}
+												?>
 											</div>
 											<?php
 										endif;
@@ -183,11 +224,6 @@ function hestia_team_content( $hestia_team_content, $is_callback = false ) {
 						</div>
 					</div>
 					<?php
-					if ( $i % 2 == 0 ) {
-						echo '</div><!-- /.row -->';
-						echo '<div class="row">';
-					}
-					$i++;
 				endforeach;
 				echo '</div>';
 			}// End if().
